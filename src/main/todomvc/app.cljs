@@ -7,8 +7,5 @@
    text])
 
 (defn app []
-  (let [state* (uix/state 0)]
-    [:<>
-     [button {:on-click #(swap! state* dec)} "-"]
-     [:span @state*]
-     [button {:on-click #(swap! state* inc)} "+"]]))
+  [:<>
+   [:h1 "howdy"]])
