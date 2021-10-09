@@ -1,6 +1,12 @@
-(ns todomvc.app-spec)
+(ns todomvc.app-spec
+  (:require ["@testing-library/react" :as rtl]
+            [uix.core.alpha :as uix]
+            [todomvc.app :as x]))
 
-(js/test "arithmetic"
+(js/test "shows string"
          (fn []
-           (-> (js/expect (+ 2 2))
-               (.toBe 4))))
+           (rtl/render (uix/as-element [x/app]))
+           (-> rtl/screen
+               (.getByRole "heading")
+               js/expect
+               (.toHaveTextContent #js{:text "hello"}))))

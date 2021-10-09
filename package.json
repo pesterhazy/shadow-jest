@@ -3,11 +3,12 @@
   "version": "0.0.1",
   "private": true,
   "devDependencies": {
+    "@testing-library/react": "^12.1.2",
     "jest": "^27.2.5",
     "shadow-cljs": "2.15.10"
   },
   "scripts": {
-    "dev": "clojure -M:shadow-cljs watch app",
+    "dev": "clojure -M:shadow-cljs watch app test",
     "test": "jest --watchAll"
   },
   "dependencies": {
