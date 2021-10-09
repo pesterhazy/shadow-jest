@@ -30,4 +30,7 @@
                                  #js{:target #js{:value "Write macros"}})
            (rtl/fireEvent.submit (rtl/screen.getByRole "textbox"))
            (-> (js/expect (rtl/screen.getByText "Write macros"))
-               (.toBeInTheDocument))))
+               (.toBeInTheDocument))
+           (-> (js/expect (-> (rtl/screen.getByRole "textbox")
+                              .-value))
+               (.toBe ""))))

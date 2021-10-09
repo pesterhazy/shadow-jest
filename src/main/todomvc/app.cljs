@@ -12,6 +12,7 @@
       [:form {:on-submit (fn [ev]
                            (let [s (.-value @!input)]
                              (swap! !todos conj s)
+                             (set! (.-value @!input) "")
                              (.preventDefault ev)))}
        [:input.new-todo {:type "text"
                          :placeholder "What needs to be done?"
