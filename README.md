@@ -5,8 +5,7 @@ Rationale: Jest is a much better test runner than anything available for Clojure
 # Usage
 
 ```
-shadow-cljs watch test
-
+npm run dev
 npm run test
 ```
 
