@@ -10,19 +10,23 @@
 (defn app []
   (let [!input (uix/ref nil)
         !todos (uix/state ["Create REPL"])]
-    [:<>
-     [:header.header]
-     [:section.main
+    [:div
+     [:header.header
       [:h1 "todos"]
-      [:form {:on-submit (fn [ev]
-                           (let [s (.-value @!input)]
-                             (swap! !todos conj s)
-                             (set! (.-value @!input) "")
-                             (.preventDefault ev)))}
-       [:input.new-todo {:type "text"
-                         :placeholder "What needs to be done?"
-                         :ref !input}]
-       [:input {:type "submit" :style {:visibility "hidden"}}]]
+      [:input.new-todo {:type "text"
+                        :placeholder "What needs to be done?"
+                        :auto-focus true
+                        :on-key-down (fn [ev]
+                                       (when (= "Enter" (.-key ev))
+                                         (let [s (.-value @!input)]
+                                           (swap! !todos conj s)
+                                           (set! (.-value @!input) ""))))
+                        :ref !input}]]
+     [:section.main
+      [:span
+       [:input.toggle-all {:type "checkbox" :read-only true}]
+       [:label]]
+
       (->> @!todos
            (map-indexed (fn [idx s]
                           [:li
