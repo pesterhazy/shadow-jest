@@ -22,3 +22,12 @@
            (-> (js/expect (rtl/screen.getByText "Completed"))
                (.-not)
                (.toHaveClass "selected"))))
+
+(js/test "add todo"
+         (fn []
+           (rtl/render (uix/as-element [x/app]))
+           (rtl/fireEvent.change (rtl/screen.getByRole "textbox")
+                                 #js{:target #js{:value "Write macros"}})
+           (rtl/fireEvent.submit (rtl/screen.getByRole "textbox"))
+           (-> (js/expect (rtl/screen.getByText "Write macros"))
+               (.toBeInTheDocument))))
