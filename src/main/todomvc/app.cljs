@@ -22,4 +22,4 @@
    [:footer.footer
     [:span.todo-count "1 item left"]
     [:ul.filters
-     [:li.selected {:cursor :pointer} "All"]]]])
+     [:li [:a.selected {:cursor :pointer} "All"]]]]])
