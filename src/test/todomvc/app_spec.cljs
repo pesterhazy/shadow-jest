@@ -34,3 +34,10 @@
            (-> (js/expect (-> (rtl/screen.getByRole "textbox")
                               .-value))
                (.toBe ""))))
+
+(js/test "remove todo"
+         (fn []
+           (rtl/render (uix/as-element [x/app]))
+           (rtl/fireEvent.click (rtl/screen.getByTestId "destroy"))
+           (-> (js/expect (rtl/screen.queryByText "Create REPL"))
+               .toBeNull)))

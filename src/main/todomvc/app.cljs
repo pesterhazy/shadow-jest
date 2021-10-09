@@ -2,6 +2,11 @@
   (:require [uix.core.alpha :as uix]
             [uix.dom.alpha :as uix.dom]))
 
+(defn vec-remove
+  "remove elem in coll"
+  [pos coll]
+  (into (subvec coll 0 pos) (subvec coll (inc pos))))
+
 (defn app []
   (let [!input (uix/ref nil)
         !todos (uix/state ["Create REPL"])]
@@ -19,12 +24,15 @@
                          :ref !input}]
        [:input {:type "submit" :style {:visibility "hidden"}}]]
       (->> @!todos
-           (map (fn [s]
-                  [:li
-                   [:div.view
-                    [:input.toggle {:type "checkbox"}]
-                    [:label s]
-                    [:button.destroy]]]))
+           (map-indexed (fn [idx s]
+                          [:li
+                           [:div.view
+                            [:input.toggle {:type "checkbox"}]
+                            [:label s]
+                            [:button.destroy {:data-testid "destroy"
+                                              :on-click
+                                              (fn []
+                                                (swap! !todos (partial vec-remove idx)))}]]]))
            (into [:ul.todo-list]))]
      [:footer.footer
       [:span.todo-count "1 item left"]
