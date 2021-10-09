@@ -13,4 +13,6 @@
      [:span @state*]
      [button {:on-click #(swap! state* inc)} "+"]]))
 
-(uix.dom/render [app] (js/document.querySelector "#app"))
+;; FIXME: enable again
+
+#_(uix.dom/render [app] (js/document.querySelector "#app"))
