@@ -20,4 +20,6 @@
        [:label "Create REPL"]
        [:button.destroy]]]]]
    [:footer.footer
-    [:span.todo-count "1 item left"]]])
+    [:span.todo-count "1 item left"]
+    [:ul.filters
+     [:li.selected {:cursor :pointer} "All"]]]])
