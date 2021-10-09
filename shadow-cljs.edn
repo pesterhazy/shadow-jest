@@ -14,7 +14,7 @@
         :output-dir "public/js"
         :asset-path "/js"
         :modules {:main {:entries [todomvc.app]}}}
-  :test {:target :browser-test
+  :test {:target :node-test
          :ns-regexp "-spec$"
-         :runner-ns todomvc.jest
-         :test-dir "dist-test"}}}
+         :main todomvc.jest/main
+         :output-to "dist-test/out.js"}}}
