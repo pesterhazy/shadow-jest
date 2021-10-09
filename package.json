@@ -9,9 +9,5 @@
   "scripts": {
     "test": "jest"
   },
-  "jest": {
-    "verbose": true,
-    "testEnvironment": "jsdom"
-  },
   "dependencies": {}
 }
