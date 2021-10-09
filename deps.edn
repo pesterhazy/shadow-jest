@@ -2,7 +2,12 @@
          "src/main"
          "src/test" ;; FIXME: move to test-only deps
          ]
- :deps {}
+ :deps {uix.core/uix.core {:git/url "https://github.com/roman01la/uix.git"
+                           :deps/root "core"
+                           :sha "03bf38eda418c889fe9cdfad1c9738d5563719e4"}
+        uix.dom/uix.dom {:git/url "https://github.com/roman01la/uix.git"
+                         :deps/root "dom"
+                         :sha "03bf38eda418c889fe9cdfad1c9738d5563719e4"}}
  :aliases
  {:shadow-cljs
   {:extra-deps {thheller/shadow-cljs {:mvn/version "2.15.10"}}
