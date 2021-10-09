@@ -8,13 +8,16 @@
 
 (defn app []
   [:<>
-   [:h1 "todos"]
-   [:input.new-todo {:type "text"
-                     :placeholder "What needs to be done?"}]
-   [:ul.todo-list
-    [:li
-     [:div.view
-      [:input.toggle {:type "checkbox"}]
-      [:label "Create REPL"]
-      [:button.destroy]]]]
-   ])
+   [:header.header]
+   [:section.main
+    [:h1 "todos"]
+    [:input.new-todo {:type "text"
+                      :placeholder "What needs to be done?"}]
+    [:ul.todo-list
+     [:li
+      [:div.view
+       [:input.toggle {:type "checkbox"}]
+       [:label "Create REPL"]
+       [:button.destroy]]]]]
+   [:footer.footer
+    [:span.todo-count "1 item left"]]])

@@ -11,4 +11,6 @@
            (-> (js/expect (rtl/screen.getByPlaceholderText "What needs to be done?"))
                (.toBeInTheDocument))
            (-> (js/expect (rtl/screen.getByRole "listitem"))
-               (.toHaveTextContent "Create REPL"))))
+               (.toHaveTextContent "Create REPL"))
+           (-> (js/expect (rtl/screen.getByText "1 item left"))
+               (.toBeInTheDocument))))
