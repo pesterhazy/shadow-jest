@@ -23,5 +23,5 @@
     [:span.todo-count "1 item left"]
     [:ul.filters
      [:li [:a.selected {:cursor :pointer} "All"]]
-     [:li [:a {:cursor :pointer} "Selected"]]
-     [:li [:a {:cursor :pointer} "Completed"]]]]])
+     [:li [:a {:cursor "pointer"} "Selected"]]
+     [:li [:a {:cursor "pointer"} "Completed"]]]]])
