@@ -8,4 +8,6 @@
 
 (defn app []
   [:<>
-   [:h1 "todos"]])
+   [:h1 "todos"]
+   [:input.new-todo {:type "text"
+                     :placeholder "What needs to be done?"}]])
