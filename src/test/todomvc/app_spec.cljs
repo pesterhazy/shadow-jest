@@ -3,10 +3,12 @@
             [uix.core.alpha :as uix]
             [todomvc.app :as x]))
 
-(js/test "shows heading"
+(js/test "initial screen"
          (fn []
            (rtl/render (uix/as-element [x/app]))
            (-> (js/expect (rtl/screen.getByRole "heading"))
                (.toHaveTextContent "todos"))
            (-> (js/expect (rtl/screen.getByPlaceholderText "What needs to be done?"))
-               (.toBeInTheDocument))))
+               (.toBeInTheDocument))
+           (-> (js/expect (rtl/screen.getByRole "listitem"))
+               (.toHaveTextContent "Create REPL"))))

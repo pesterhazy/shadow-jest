@@ -10,4 +10,11 @@
   [:<>
    [:h1 "todos"]
    [:input.new-todo {:type "text"
-                     :placeholder "What needs to be done?"}]])
+                     :placeholder "What needs to be done?"}]
+   [:ul.todo-list
+    [:li
+     [:div.view
+      [:input.toggle {:type "checkbox"}]
+      [:label "Create REPL"]
+      [:button.destroy]]]]
+   ])
