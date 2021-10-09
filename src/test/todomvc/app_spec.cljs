@@ -7,4 +7,4 @@
 (js/test "arithmetic"
          (fn []
            (-> (js/expect (+ 2 2))
-               (.toBe 5))))
+               (.toBe 4))))
