@@ -41,4 +41,6 @@
            (rtl/render (uix/as-element [x/app]))
            (rtl/fireEvent.click (rtl/screen.getByTestId "destroy"))
            (-> (js/expect (rtl/screen.queryByText "Create REPL"))
+               .toBeNull)
+           (-> (js/expect (rtl/screen.queryByTestId "footer"))
                .toBeNull)))
