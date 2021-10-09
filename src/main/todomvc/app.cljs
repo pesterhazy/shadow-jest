@@ -13,4 +13,4 @@
      [:span @state*]
      [button {:on-click #(swap! state* inc)} "+"]]))
 
-(uix.dom/render [app] js/root)
+(uix.dom/render [app] (js/document.querySelector "#app"))
