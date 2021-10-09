@@ -8,4 +8,4 @@
 
 (defn app []
   [:<>
-   [:h1 "howdy"]])
+   [:h1 "todos"]])

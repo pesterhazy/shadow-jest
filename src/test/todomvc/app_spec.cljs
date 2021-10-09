@@ -7,4 +7,4 @@
          (fn []
            (rtl/render (uix/as-element [x/app]))
            (-> (js/expect (rtl/screen.getByRole "heading"))
-               (.toHaveTextContent "howdy"))))
+               (.toHaveTextContent "todos"))))
