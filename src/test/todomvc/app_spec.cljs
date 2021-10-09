@@ -10,7 +10,7 @@
                (.toHaveTextContent "todos"))
            (-> (js/expect (rtl/screen.getByPlaceholderText "What needs to be done?"))
                (.toBeInTheDocument))
-           (-> (js/expect (rtl/screen.getByText "Create REPL"))
+           (-> (js/expect (rtl/screen.getByText "Start REPL"))
                (.toBeInTheDocument))
            (-> (js/expect (rtl/screen.getByText "1 item left"))
                (.toBeInTheDocument))
@@ -36,11 +36,28 @@
                               .-value))
                (.toBe ""))))
 
+;; FIXME: custom matcher for CLJS data structures?
+
+(defn explain-not= [a b]
+  (if (= a b)
+    nil
+    (str "Not the same: " (pr-str [a b]))))
+
+(js/test "can't create empty todo"
+         (fn []
+           (rtl/render (uix/as-element [x/app]))
+           (rtl/fireEvent.keyDown (rtl/screen.getByRole "textbox")
+                                  #js{:key "Enter" :code 13 :charCode 13})
+           ;; custom matcher?
+           (-> (js/expect (explain-not= (map #(.-textContent %) (rtl/screen.getAllByTestId #"item"))
+                                        ["Start REPL"]))
+               (.toBeNull))))
+
 (js/test "remove todo"
          (fn []
            (rtl/render (uix/as-element [x/app]))
            (rtl/fireEvent.click (rtl/screen.getByTestId "destroy"))
-           (-> (js/expect (rtl/screen.queryByText "Create REPL"))
+           (-> (js/expect (rtl/screen.queryByText "Start REPL"))
                .toBeNull)
            (-> (js/expect (rtl/screen.queryByTestId "footer"))
                .toBeNull)))
