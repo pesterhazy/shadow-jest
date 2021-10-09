@@ -7,7 +7,7 @@
  {:app {:target :browser
         :output-dir "public/js"
         :asset-path "/js"
-        :modules {:main {:entries [todomvc.app]}}}
+        :modules {:main {:entries [todomvc.main]}}}
   :test {:target :npm-module
          :ns-regexp "-spec$"
          :output-dir "dist-test"}}}
