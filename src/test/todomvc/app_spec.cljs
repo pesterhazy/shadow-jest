@@ -15,4 +15,4 @@
            (-> (js/expect (rtl/screen.getByText "1 item left"))
                (.toBeInTheDocument))
            (-> (js/expect (rtl/screen.getByText "All"))
-               (.toBeInTheDocument))))
+               (.toHaveClass "selected"))))
