@@ -20,7 +20,11 @@
                              (remove :completed))
                         :completed
                         (->> @!todos
-                             (filter :completed)))]
+                             (filter :completed)))
+        active-count (->> @!todos
+                          (remove :completed)
+                          count)]
+
     [:div
      [:header.header
       [:h1 "todos"]
@@ -58,9 +62,9 @@
            (into [:ul.todo-list]))]
      (when (seq @!todos)
        [:footer.footer {:data-testid "footer"}
-        [:span.todo-count (str (->> visible-todos count)
+        [:span.todo-count (str active-count
                                " "
-                               (if (= 1 (->> visible-todos count))
+                               (if (= 1 active-count)
                                  "item"
                                  "items")
                                " left")]

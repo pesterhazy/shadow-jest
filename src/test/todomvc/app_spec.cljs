@@ -87,7 +87,7 @@
            (-> (js/expect (-> (rtl/screen.getByText "A")
                               (.closest "li")))
                (.toHaveClass "completed"))
-           (-> (js/expect (rtl/screen.getByText "1 item left"))
+           (-> (js/expect (rtl/screen.getByText "0 items left"))
                (.toBeInTheDocument))))
 
 (js/test "select filter"
