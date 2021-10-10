@@ -9,7 +9,7 @@
   ([opts]
    (rtl/render (uix/as-element [x/app {:initial-todos (or
                                                        (:initial-todos opts)
-                                                       [{:label "Start REPL"}])}]))))
+                                                       [{:label "A"}])}]))))
 
 (js/test "initial screen"
          (fn []
@@ -18,7 +18,7 @@
                (.toHaveTextContent "todos"))
            (-> (js/expect (rtl/screen.getByPlaceholderText "What needs to be done?"))
                (.toBeInTheDocument))
-           (-> (js/expect (rtl/screen.getByText "Start REPL"))
+           (-> (js/expect (rtl/screen.getByText "A"))
                (.toBeInTheDocument))
            (-> (js/expect (rtl/screen.getByText "1 item left"))
                (.toBeInTheDocument))
@@ -61,14 +61,14 @@
            ;; custom matcher?
            (-> (js/expect (explain-not= (->> (rtl/screen.getAllByTestId #"item")
                                              (map #(.-textContent %) ))
-                                        ["Start REPL"]))
+                                        ["A"]))
                (.toBeNull))))
 
 (js/test "remove todo"
          (fn []
            (render)
            (rtl/fireEvent.click (rtl/screen.getByTestId "destroy"))
-           (-> (js/expect (rtl/screen.queryByText "Start REPL"))
+           (-> (js/expect (rtl/screen.queryByText "A"))
                .toBeNull)
            (-> (js/expect (rtl/screen.queryByTestId "footer"))
                .toBeNull)))
@@ -77,7 +77,7 @@
          (fn []
            (render)
            (rtl/fireEvent.click (rtl/screen.getByTestId "toggle-0"))
-           (-> (js/expect (-> (rtl/screen.getByText "Start REPL")
+           (-> (js/expect (-> (rtl/screen.getByText "A")
                               (.closest "li")))
                (.toHaveClass "completed"))
            (-> (js/expect (rtl/screen.getByText "0 items left"))
