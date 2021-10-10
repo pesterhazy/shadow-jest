@@ -7,10 +7,22 @@
 
 (def the-filters [:all :active :completed])
 
+(defn search-box [{:keys [on-submit]}]
+  (let [!input (uix/ref nil)]
+    [:input.new-todo {:type "text"
+                      :placeholder "What needs to be done?"
+                      :auto-focus true
+                      :on-key-down (fn [ev]
+                                     (when (= "Enter" (.-key ev))
+                                       (let [s (str/trim (.-value @!input))]
+                                         (when (seq s)
+                                           (on-submit s)
+                                           (set! (.-value @!input) "")))))
+                      :ref !input}]))
+
 (defn app [{:keys [initial-todos]}]
   (assert (vector? initial-todos))
-  (let [!input (uix/ref nil)
-        !todos (uix/state initial-todos)
+  (let [!todos (uix/state initial-todos)
         !filter (uix/state :all)
         visible-todos (case @!filter
                         :all
@@ -28,16 +40,8 @@
     [:div
      [:header.header
       [:h1 "todos"]
-      [:input.new-todo {:type "text"
-                        :placeholder "What needs to be done?"
-                        :auto-focus true
-                        :on-key-down (fn [ev]
-                                       (when (= "Enter" (.-key ev))
-                                         (let [s (str/trim (.-value @!input))]
-                                           (when (seq s)
-                                             (swap! !todos conj {:label s})
-                                             (set! (.-value @!input) "")))))
-                        :ref !input}]]
+      [search-box {:on-submit (fn [s] (swap! !todos conj {:label s}))}]
+      ]
      [:section.main
       [:span
        [:input.toggle-all {:type "checkbox" :read-only true}]
