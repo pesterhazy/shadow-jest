@@ -110,3 +110,15 @@
                (.toHaveClass "selected"))
            (-> (js/expect (explain-not= ["B"] (get-all-labels)))
                (.toBeNull))))
+
+(js/test "toggle all"
+         (fn []
+           (render {:initial-todos [{:label "A" :completed false}
+                                    {:label "B" :completed false}]})
+           (rtl/fireEvent.click (rtl/screen.getByTestId "toggle-all"))
+           (-> (js/expect (-> (rtl/screen.getByText "A")
+                              (.closest "li")))
+               (.toHaveClass "completed"))
+           (-> (js/expect (-> (rtl/screen.getByText "B")
+                              (.closest "li")))
+               (.toHaveClass "completed"))))

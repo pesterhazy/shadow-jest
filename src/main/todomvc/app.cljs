@@ -54,6 +54,16 @@
                 (str/capitalize (name filter))]]))
        (into [:ul.filters])))
 
+(defn toggle-all-ui [{:keys [checked
+                             on-change]}]
+  [:span
+   [:input.toggle-all {:type "checkbox"
+                       :checked checked
+                       :on-change (fn []
+                                    (on-change (not checked)))
+                       :data-testid "toggle-all"}]
+   [:label]])
+
 (defn app [{:keys [initial-todos]}]
   (assert (vector? initial-todos))
   (let [!todos (uix/state initial-todos)
@@ -76,9 +86,13 @@
       [:h1 "todos"]
       [search-box {:on-submit (fn [s] (swap! !todos conj {:label s}))}]]
      [:section.main
-      [:span
-       [:input.toggle-all {:type "checkbox" :read-only true}]
-       [:label]]
+      [toggle-all-ui {:checked false
+                      :on-change
+                      (fn [checked]
+                        (swap! !todos
+                               #(->> %
+                                     (mapv (fn [todo]
+                                             (assoc todo :completed checked))))))}]
       [todo-list {:todos visible-todos
                   :on-toggle (fn [idx] (swap! !todos update-in [idx :completed] not))
                   :on-destroy (fn [idx] (swap! !todos (partial vec-remove idx)))}]]
