@@ -16,7 +16,7 @@
                (.toBeInTheDocument))
            (-> (js/expect (rtl/screen.getByText "All"))
                (.toHaveClass "selected"))
-           (-> (js/expect (rtl/screen.getByText "Selected"))
+           (-> (js/expect (rtl/screen.getByText "Active"))
                (.-not)
                (.toHaveClass "selected"))
            (-> (js/expect (rtl/screen.getByText "Completed"))
