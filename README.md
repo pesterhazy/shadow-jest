@@ -51,3 +51,7 @@ open http://localhost:8012/
 [TodoMVC](https://todomvc.com/) is, by convention, the Hello World 2.0 of frontend applications, and it's been around for years. The app has just enough state to warrant a framework like React. This kata brings us the joy of building a frontend app [with an existing specification](https://github.com/tastejs/todomvc/blob/master/app-spec.md) without worrying about the [CSS](https://unpkg.com/todomvc-app-css@2.4.1/index.css). We can focus only on the logic - and, of course, on the tests!
 
 Check out [an example written in pure React](https://todomvc.com/examples/react/#/)
+
+## Author
+
+Paulus Esterhazy pesterhazy@gmail.com — feedback welcome!
