@@ -31,7 +31,7 @@ It's often thought that ClojureScript should be tested by using tools that are n
 
 ## Why UIx?
 
-[UIx](https://github.com/roman01la/uix) is one of the modern React wrappers. As its syntax it uses Reagent-flavored hiccup, a.k.a. the magnificent sexp DSL that HTML could've been. It's modern because it exposes modern React primitives like useEffect, useState and useRef (which ClojureScript-land is only now catching up to).
+[UIx](https://github.com/roman01la/uix) is a delightful modern React wrapper. As its syntax, it uses Reagent-flavored hiccup, a.k.a. the magnificent sexp-based DSL that HTML could've been. It's modern because it exposes React primitives like useEffect, useState and useRef, which ClojureScript-land is only now catching up to.
 
 ## Usage
 
