@@ -10,9 +10,9 @@ Test Driven Development as [defined by Martin Fowler](https://martinfowler.com/b
 - Write the functional code until the test passes.
 - Refactor both new and old code to make it well structured.
 
-Following TDD is generally hard to do well in frontend development but — as I'm slowly realizing, after many years — it's worth it because it tends to improve internal software quality and, just as importantly, it allows you take [many more, much smaller steps](https://gist.github.com/pesterhazy/00ec5886e0378a83e5bf4ad96cfaaf65).
+Following TDD is generally hard to do well in frontend development but — as I'm slowly realizing, after many years — it's worth it because it tends to improve internal software quality and, just as importantly, it allows you to take [many more, much smaller steps](https://gist.github.com/pesterhazy/00ec5886e0378a83e5bf4ad96cfaaf65).
 
-As a matter of fact, with the advent of React Testing Library, component tests are now an significant category of tests, alongside traditional microtests or unit tests on the one side and end-to-end tests on the other.
+As a matter of fact, with the advent of React Testing Library (and previously Enzyme), component tests have now emerged as a significant category of tests alongside traditional microtests or unit tests on the one side and end-to-end tests on the other.
 
 ## Why Jest?
 
