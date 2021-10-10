@@ -26,28 +26,34 @@
                          on-edit
                          on-toggle
                          on-destroy]}]
-  (->> todos
-       (map-indexed
-        (fn [idx {:keys [label completed]}]
-          [:li {:class [(when completed "completed")
-                        (when (= editing idx) "editing")]}
-           [:div.view
-            [:input.toggle {:data-testid (str "toggle-" idx)
-                            :type "checkbox"
-                            :checked (boolean completed)
-                            :on-change
-                            (fn []
-                              (on-toggle idx))}]
-            [:label {:data-testid (str "item-" idx)
-                     :on-double-click (fn []
-                                        (on-edit idx))}
-             label]
-            [:button.destroy {:data-testid "destroy"
-                              :on-click
+  (let [!wip (uix/state "")]
+    (->> todos
+         (map-indexed
+          (fn [idx {:keys [label completed]}]
+            [:li {:class [(when completed "completed")
+                          (when (= editing idx) "editing")]}
+             [:div.view
+              [:input.toggle {:data-testid (str "toggle-" idx)
+                              :type "checkbox"
+                              :checked (boolean completed)
+                              :on-change
                               (fn []
-                                (on-destroy idx))}]]
-           [:input.edit {:type "text" :data-testid (str "edit-" idx)}]]))
-       (into [:ul.todo-list])))
+                                (on-toggle idx))}]
+              [:label {:data-testid (str "item-" idx)
+                       :on-double-click (fn []
+                                          (reset! !wip (get-in todos [idx :label]))
+                                          (on-edit idx))}
+               label]
+              [:button.destroy {:data-testid "destroy"
+                                :on-click
+                                (fn []
+                                  (on-destroy idx))}]]
+             [:input.edit {:type "text"
+                           :data-testid (str "edit-" idx)
+                           :value @!wip
+                           :on-change (fn [ev]
+                                        (reset! !wip (-> ev .-target .-value)))}]]))
+         (into [:ul.todo-list]))))
 
 ;; FIXME: rename other components to -ui?
 

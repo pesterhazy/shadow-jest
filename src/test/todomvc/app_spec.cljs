@@ -138,6 +138,9 @@
                .-not
                (.toHaveClass "editing"))
            (rtl/fireEvent.doubleClick (rtl/screen.getByTestId "item-0"))
-           (-> (js/expect (-> (rtl/screen.getByText "A")
-                              (.closest "li")))
-               (.toHaveClass "editing"))))
+           (let [li (-> (rtl/screen.getByText "A")
+                        (.closest "li"))]
+             (-> (js/expect li)
+                 (.toHaveClass "editing"))
+             (-> (js/expect (rtl/screen.getByTestId "edit-0"))
+                 (.toHaveValue "A")))))
