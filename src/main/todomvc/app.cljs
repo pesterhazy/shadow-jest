@@ -29,6 +29,10 @@
                          on-destroy]}]
   (let [!wip (uix/state "")
         !input (uix/ref)]
+    (uix/effect! (fn []
+                   (when @!input
+                     (.focus @!input))
+                   js/undefined))
     (->> todos
          (map-indexed
           (fn [idx {:keys [label completed]}]

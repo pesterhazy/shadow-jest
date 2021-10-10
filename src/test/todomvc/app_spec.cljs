@@ -145,6 +145,8 @@
                  (.toHaveClass "editing"))
              (-> (js/expect input)
                  (.toHaveValue "A"))
+             (-> (js/expect input)
+                 (.toHaveFocus))
              (rtl/fireEvent.change input
                                    #js{:target #js{:value "AAA"}})
              (rtl/fireEvent.keyDown input
