@@ -11,9 +11,9 @@
   ([]
    (render {}))
   ([opts]
-   (rtl/render (uix/as-element [x/app {:initial-todos (or
-                                                       (:initial-todos opts)
-                                                       [{:label "A"}])}]))))
+   (rtl/render (uix/as-element [x/app-ui {:initial-todos (or
+                                                          (:initial-todos opts)
+                                                          [{:label "A"}])}]))))
 
 (defn query-all-labels []
   (->> (rtl/screen.queryAllByTestId #"item")

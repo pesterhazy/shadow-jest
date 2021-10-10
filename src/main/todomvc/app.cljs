@@ -7,8 +7,7 @@
 
 (def the-filters [:all :active :completed])
 
-;; FIXME: terrible name
-(defn search-box [{:keys [on-submit]}]
+(defn new-todo-ui [{:keys [on-submit]}]
   (let [!input (uix/ref nil)]
     [:input.new-todo {:type "text"
                       :placeholder "What needs to be done?"
@@ -21,13 +20,13 @@
                                            (set! (.-value @!input) "")))))
                       :ref !input}]))
 
-(defn todo-list [{:keys [todos
-                         editing
-                         on-edit
-                         on-edit-submit
-                         on-edit-cancel
-                         on-toggle
-                         on-destroy]}]
+(defn todo-list-ui [{:keys [todos
+                            editing
+                            on-edit
+                            on-edit-submit
+                            on-edit-cancel
+                            on-toggle
+                            on-destroy]}]
   (let [!wip (uix/state "")
         !input (uix/ref)]
     (uix/effect! (fn []
@@ -71,8 +70,6 @@
                                             (on-edit-cancel)))}]]))
          (into [:ul.todo-list]))))
 
-;; FIXME: rename other components to -ui?
-
 (defn filter-ui [{:keys [value on-change]}]
   (->> the-filters
        (map (fn [filter]
@@ -99,7 +96,7 @@
   [:button.clear-completed {:on-click on-click}
    "Clear completed"])
 
-(defn app [{:keys [initial-todos]}]
+(defn app-ui [{:keys [initial-todos]}]
   (assert (vector? initial-todos))
   (let [!todos (uix/state initial-todos)
         !filter (uix/state :all)
@@ -120,7 +117,7 @@
     [:div
      [:header.header
       [:h1 "todos"]
-      [search-box {:on-submit (fn [s] (swap! !todos conj {:label s}))}]]
+      [new-todo-ui {:on-submit (fn [s] (swap! !todos conj {:label s}))}]]
      (when (seq @!todos)
        [:section.main {:data-testid "main"}
         [toggle-all-ui {:checked (if (->> @!todos
@@ -133,17 +130,17 @@
                                  #(->> %
                                        (mapv (fn [todo]
                                                (assoc todo :completed checked))))))}]
-        [todo-list {:todos visible-todos
-                    :editing @!editing
-                    :on-edit (fn [idx]
-                               (reset! !editing idx))
-                    :on-edit-submit (fn [idx s]
-                                      (swap! !todos assoc-in [idx :label] s)
-                                      (reset! !editing nil))
-                    :on-edit-cancel (fn []
-                                      (reset! !editing nil))
-                    :on-toggle (fn [idx] (swap! !todos update-in [idx :completed] not))
-                    :on-destroy (fn [idx] (swap! !todos (partial vec-remove idx)))}]])
+        [todo-list-ui {:todos visible-todos
+                       :editing @!editing
+                       :on-edit (fn [idx]
+                                  (reset! !editing idx))
+                       :on-edit-submit (fn [idx s]
+                                         (swap! !todos assoc-in [idx :label] s)
+                                         (reset! !editing nil))
+                       :on-edit-cancel (fn []
+                                         (reset! !editing nil))
+                       :on-toggle (fn [idx] (swap! !todos update-in [idx :completed] not))
+                       :on-destroy (fn [idx] (swap! !todos (partial vec-remove idx)))}]])
      (when (seq @!todos)
        [:footer.footer {:data-testid "footer"}
         [:span.todo-count (str active-count
