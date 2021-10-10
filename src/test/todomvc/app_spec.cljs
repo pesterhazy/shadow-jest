@@ -61,3 +61,11 @@
                .toBeNull)
            (-> (js/expect (rtl/screen.queryByTestId "footer"))
                .toBeNull)))
+
+(js/test "complete todo"
+         (fn []
+           (rtl/render (uix/as-element [x/app]))
+           (rtl/fireEvent.click (rtl/screen.getByTestId "toggle-0"))
+           (-> (js/expect (-> (rtl/screen.getByText "Start REPL")
+                              (.closest "li")))
+               (.toHaveClass "completed"))))

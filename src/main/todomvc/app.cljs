@@ -7,7 +7,7 @@
 
 (defn app []
   (let [!input (uix/ref nil)
-        !todos (uix/state ["Start REPL"])]
+        !todos (uix/state [{:label "Start REPL"}])]
     [:div
      [:header.header
       [:h1 "todos"]
@@ -18,7 +18,7 @@
                                        (when (= "Enter" (.-key ev))
                                          (let [s (str/trim (.-value @!input))]
                                            (when (seq s)
-                                             (swap! !todos conj s)
+                                             (swap! !todos conj {:label s})
                                              (set! (.-value @!input) "")))))
                         :ref !input}]]
      [:section.main
@@ -26,11 +26,17 @@
        [:input.toggle-all {:type "checkbox" :read-only true}]
        [:label]]
       (->> @!todos
-           (map-indexed (fn [idx s]
-                          [:li
+           (map-indexed (fn [idx {:keys [label completed]}]
+                          [:li {:class (when completed "completed")}
                            [:div.view
-                            [:input.toggle {:type "checkbox"}]
-                            [:label {:data-testid (str "item-" idx)} s]
+                            [:input.toggle {:data-testid (str "toggle-" idx)
+                                            :type "checkbox"
+                                            :checked (boolean completed)
+                                            :on-change
+                                            (fn []
+                                              (swap! !todos update-in [idx :completed] not))}]
+                            [:label {:data-testid (str "item-" idx)}
+                             label]
                             [:button.destroy {:data-testid "destroy"
                                               :on-click
                                               (fn []
