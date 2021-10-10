@@ -77,6 +77,8 @@
            (rtl/fireEvent.click (rtl/screen.getByTestId "destroy"))
            (-> (js/expect (rtl/screen.queryByText "A"))
                .toBeNull)
+           (-> (js/expect (rtl/screen.queryByTestId "main"))
+               .toBeNull)
            (-> (js/expect (rtl/screen.queryByTestId "footer"))
                .toBeNull)))
 

@@ -85,20 +85,21 @@
      [:header.header
       [:h1 "todos"]
       [search-box {:on-submit (fn [s] (swap! !todos conj {:label s}))}]]
-     [:section.main
-      [toggle-all-ui {:checked (if (->> @!todos
-                                        (every? :completed))
-                                 true
-                                 false)
-                      :on-change
-                      (fn [checked]
-                        (swap! !todos
-                               #(->> %
-                                     (mapv (fn [todo]
-                                             (assoc todo :completed checked))))))}]
-      [todo-list {:todos visible-todos
-                  :on-toggle (fn [idx] (swap! !todos update-in [idx :completed] not))
-                  :on-destroy (fn [idx] (swap! !todos (partial vec-remove idx)))}]]
+     (when (seq @!todos)
+       [:section.main {:data-testid "main"}
+        [toggle-all-ui {:checked (if (->> @!todos
+                                          (every? :completed))
+                                   true
+                                   false)
+                        :on-change
+                        (fn [checked]
+                          (swap! !todos
+                                 #(->> %
+                                       (mapv (fn [todo]
+                                               (assoc todo :completed checked))))))}]
+        [todo-list {:todos visible-todos
+                    :on-toggle (fn [idx] (swap! !todos update-in [idx :completed] not))
+                    :on-destroy (fn [idx] (swap! !todos (partial vec-remove idx)))}]])
      (when (seq @!todos)
        [:footer.footer {:data-testid "footer"}
         [:span.todo-count (str active-count
