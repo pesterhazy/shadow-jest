@@ -20,6 +20,29 @@
                                            (set! (.-value @!input) "")))))
                       :ref !input}]))
 
+(defn todo-list [{:keys [todos
+                         on-toggle
+                         on-destroy]}]
+  (->> todos
+       (map-indexed
+        (fn [idx {:keys [label completed]}]
+          [:li {:class (when completed "completed")}
+           [:div.view
+            [:input.toggle {:data-testid (str "toggle-" idx)
+                            :type "checkbox"
+                            :checked (boolean completed)
+                            :on-change
+                            (fn []
+                              (on-toggle idx))}]
+            [:label {:data-testid (str "item-" idx)}
+             label]
+            [:button.destroy {:data-testid "destroy"
+                              :on-click
+                              (fn []
+                                (on-destroy idx))}]]]))
+       (into [:ul.todo-list]))
+  )
+
 (defn app [{:keys [initial-todos]}]
   (assert (vector? initial-todos))
   (let [!todos (uix/state initial-todos)
@@ -40,30 +63,14 @@
     [:div
      [:header.header
       [:h1 "todos"]
-      [search-box {:on-submit (fn [s] (swap! !todos conj {:label s}))}]
-      ]
+      [search-box {:on-submit (fn [s] (swap! !todos conj {:label s}))}]]
      [:section.main
       [:span
        [:input.toggle-all {:type "checkbox" :read-only true}]
        [:label]]
-      (->> visible-todos
-           (map-indexed
-            (fn [idx {:keys [label completed]}]
-              [:li {:class (when completed "completed")}
-               [:div.view
-                [:input.toggle {:data-testid (str "toggle-" idx)
-                                :type "checkbox"
-                                :checked (boolean completed)
-                                :on-change
-                                (fn []
-                                  (swap! !todos update-in [idx :completed] not))}]
-                [:label {:data-testid (str "item-" idx)}
-                 label]
-                [:button.destroy {:data-testid "destroy"
-                                  :on-click
-                                  (fn []
-                                    (swap! !todos (partial vec-remove idx)))}]]]))
-           (into [:ul.todo-list]))]
+      [todo-list {:todos visible-todos
+                  :on-toggle (fn [idx] (swap! !todos update-in [idx :completed] not))
+                  :on-destroy (fn [idx] (swap! !todos (partial vec-remove idx)))}]]
      (when (seq @!todos)
        [:footer.footer {:data-testid "footer"}
         [:span.todo-count (str active-count
