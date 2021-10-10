@@ -73,3 +73,13 @@
                (.toHaveClass "completed"))
            (-> (js/expect (rtl/screen.getByText "0 items left"))
                (.toBeInTheDocument))))
+
+(js/test "select filter"
+         (fn []
+           (rtl/render (uix/as-element [x/app]))
+           (rtl/fireEvent.click (rtl/screen.getByTestId "filter-active"))
+           (-> (js/expect (rtl/screen.getByText "All"))
+               (.-not)
+               (.toHaveClass "selected"))
+           (-> (js/expect (rtl/screen.getByText "Active"))
+               (.toHaveClass "selected"))))

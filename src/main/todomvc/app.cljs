@@ -5,9 +5,12 @@
 (defn vec-remove [pos coll]
   (into (subvec coll 0 pos) (subvec coll (inc pos))))
 
+(def the-filters [:all :active :completed])
+
 (defn app []
   (let [!input (uix/ref nil)
         !todos (uix/state [{:label "Start REPL"}])
+        !filter (uix/state :all)
         active-count (->> @!todos
                           (remove :completed)
                           count)]
@@ -54,7 +57,13 @@
                                  "item"
                                  "items")
                                " left")]
-        [:ul.filters
-         [:li [:a.selected {:cursor :pointer} "All"]]
-         [:li [:a {:cursor "pointer"} "Active"]]
-         [:li [:a {:cursor "pointer"} "Completed"]]]])]))
+        (->> the-filters
+             (map (fn [filter]
+                    [:li {:key (name filter)}
+                     [:a {:cursor :pointer
+                          :class (when (= filter @!filter) "selected")
+                          :data-testid (str "filter-" (name filter))
+                          :on-click (fn []
+                                      (reset! !filter filter))}
+                      (str/capitalize (name filter))]]))
+             (into [:ul.filters]))])]))
