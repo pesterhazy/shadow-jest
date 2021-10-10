@@ -24,9 +24,11 @@
 (defn todo-list [{:keys [todos
                          editing
                          on-edit
+                         on-edit-submit
                          on-toggle
                          on-destroy]}]
-  (let [!wip (uix/state "")]
+  (let [!wip (uix/state "")
+        !input (uix/ref)]
     (->> todos
          (map-indexed
           (fn [idx {:keys [label completed]}]
@@ -51,8 +53,14 @@
              [:input.edit {:type "text"
                            :data-testid (str "edit-" idx)
                            :value @!wip
+                           :ref !input
                            :on-change (fn [ev]
-                                        (reset! !wip (-> ev .-target .-value)))}]]))
+                                        (reset! !wip (-> ev .-target .-value)))
+                           :on-key-down (fn [ev]
+                                          (when (= "Enter" (.-key ev))
+                                            (let [s (str/trim (.-value @!input))]
+                                              (when (seq s)
+                                                (on-edit-submit idx s)))))}]]))
          (into [:ul.todo-list]))))
 
 ;; FIXME: rename other components to -ui?
@@ -121,6 +129,9 @@
                     :editing @!editing
                     :on-edit (fn [idx]
                                (reset! !editing idx))
+                    :on-edit-submit (fn [idx s]
+                                      (swap! !todos assoc-in [idx :label] s)
+                                      (reset! !editing nil))
                     :on-toggle (fn [idx] (swap! !todos update-in [idx :completed] not))
                     :on-destroy (fn [idx] (swap! !todos (partial vec-remove idx)))}]])
      (when (seq @!todos)

@@ -139,8 +139,17 @@
                (.toHaveClass "editing"))
            (rtl/fireEvent.doubleClick (rtl/screen.getByTestId "item-0"))
            (let [li (-> (rtl/screen.getByText "A")
-                        (.closest "li"))]
+                        (.closest "li"))
+                 input (rtl/screen.getByTestId "edit-0")]
              (-> (js/expect li)
                  (.toHaveClass "editing"))
-             (-> (js/expect (rtl/screen.getByTestId "edit-0"))
-                 (.toHaveValue "A")))))
+             (-> (js/expect input)
+                 (.toHaveValue "A"))
+             (rtl/fireEvent.change input
+                                   #js{:target #js{:value "AAA"}})
+             (rtl/fireEvent.keyDown input
+                                    #js{:key "Enter" :code 13 :charCode 13})
+             (-> (js/expect (-> (rtl/screen.getByText "AAA")
+                                (.closest "li")))
+                 .-not
+                 (.toHaveClass "editing")))))
