@@ -7,9 +7,10 @@
 
 (def the-filters [:all :active :completed])
 
-(defn app []
+(defn app [{:keys [initial-todos]}]
+  (assert (vector? initial-todos))
   (let [!input (uix/ref nil)
-        !todos (uix/state [{:label "Start REPL"}])
+        !todos (uix/state initial-todos)
         !filter (uix/state :all)
         active-count (->> @!todos
                           (remove :completed)

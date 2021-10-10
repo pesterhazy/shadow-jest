@@ -3,9 +3,17 @@
             [uix.core.alpha :as uix]
             [todomvc.app :as x]))
 
+(defn render
+  ([]
+   (render {}))
+  ([opts]
+   (rtl/render (uix/as-element [x/app {:initial-todos (or
+                                                       (:initial-todos opts)
+                                                       [{:label "Start REPL"}])}]))))
+
 (js/test "initial screen"
          (fn []
-           (rtl/render (uix/as-element [x/app]))
+           (render)
            (-> (js/expect (rtl/screen.getByRole "heading"))
                (.toHaveTextContent "todos"))
            (-> (js/expect (rtl/screen.getByPlaceholderText "What needs to be done?"))
@@ -25,7 +33,7 @@
 
 (js/test "add todo"
          (fn []
-           (rtl/render (uix/as-element [x/app]))
+           (render)
            (rtl/fireEvent.change (rtl/screen.getByRole "textbox")
                                  #js{:target #js{:value "Write macros"}})
            (rtl/fireEvent.keyDown (rtl/screen.getByRole "textbox")
@@ -47,17 +55,18 @@
 
 (js/test "can't create empty todo"
          (fn []
-           (rtl/render (uix/as-element [x/app]))
+           (render)
            (rtl/fireEvent.keyDown (rtl/screen.getByRole "textbox")
                                   #js{:key "Enter" :code 13 :charCode 13})
            ;; custom matcher?
-           (-> (js/expect (explain-not= (map #(.-textContent %) (rtl/screen.getAllByTestId #"item"))
+           (-> (js/expect (explain-not= (->> (rtl/screen.getAllByTestId #"item")
+                                             (map #(.-textContent %) ))
                                         ["Start REPL"]))
                (.toBeNull))))
 
 (js/test "remove todo"
          (fn []
-           (rtl/render (uix/as-element [x/app]))
+           (render)
            (rtl/fireEvent.click (rtl/screen.getByTestId "destroy"))
            (-> (js/expect (rtl/screen.queryByText "Start REPL"))
                .toBeNull)
@@ -66,7 +75,7 @@
 
 (js/test "complete todo"
          (fn []
-           (rtl/render (uix/as-element [x/app]))
+           (render)
            (rtl/fireEvent.click (rtl/screen.getByTestId "toggle-0"))
            (-> (js/expect (-> (rtl/screen.getByText "Start REPL")
                               (.closest "li")))
@@ -76,7 +85,7 @@
 
 (js/test "select filter"
          (fn []
-           (rtl/render (uix/as-element [x/app]))
+           (render)
            (rtl/fireEvent.click (rtl/screen.getByTestId "filter-active"))
            (-> (js/expect (rtl/screen.getByText "All"))
                (.-not)
