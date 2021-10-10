@@ -3,6 +3,9 @@
             [uix.core.alpha :as uix]
             [todomvc.app :as x]))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; test helpers
+
 (defn render
   ([]
    (render {}))
@@ -10,6 +13,13 @@
    (rtl/render (uix/as-element [x/app {:initial-todos (or
                                                        (:initial-todos opts)
                                                        [{:label "A"}])}]))))
+
+(defn get-all-labels []
+  (->> (rtl/screen.getAllByTestId #"item")
+       (map #(.-textContent %))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; tests
 
 (js/test "initial screen"
          (fn []
@@ -58,10 +68,7 @@
            (render)
            (rtl/fireEvent.keyDown (rtl/screen.getByRole "textbox")
                                   #js{:key "Enter" :code 13 :charCode 13})
-           ;; custom matcher?
-           (-> (js/expect (explain-not= (->> (rtl/screen.getAllByTestId #"item")
-                                             (map #(.-textContent %) ))
-                                        ["A"]))
+           (-> (js/expect (explain-not= (get-all-labels) ["A"]))
                (.toBeNull))))
 
 (js/test "remove todo"
@@ -80,15 +87,21 @@
            (-> (js/expect (-> (rtl/screen.getByText "A")
                               (.closest "li")))
                (.toHaveClass "completed"))
-           (-> (js/expect (rtl/screen.getByText "0 items left"))
+           (-> (js/expect (rtl/screen.getByText "1 item left"))
                (.toBeInTheDocument))))
 
 (js/test "select filter"
          (fn []
-           (render)
+           (render {:initial-todos [{:label "A" :completed false}
+                                    {:label "B" :completed true}
+                                    {:label "C" :completed false}]})
+           (-> (js/expect (explain-not= ["A" "B" "C"] (get-all-labels)))
+               (.toBeNull))
            (rtl/fireEvent.click (rtl/screen.getByTestId "filter-active"))
            (-> (js/expect (rtl/screen.getByText "All"))
                (.-not)
                (.toHaveClass "selected"))
            (-> (js/expect (rtl/screen.getByText "Active"))
-               (.toHaveClass "selected"))))
+               (.toHaveClass "selected"))
+           (-> (js/expect (explain-not= ["A" "C"] (get-all-labels)))
+               (.toBeNull))))

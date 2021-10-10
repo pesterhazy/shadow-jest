@@ -12,9 +12,15 @@
   (let [!input (uix/ref nil)
         !todos (uix/state initial-todos)
         !filter (uix/state :all)
-        active-count (->> @!todos
-                          (remove :completed)
-                          count)]
+        visible-todos (case @!filter
+                        :all
+                        @!todos
+                        :active
+                        (->> @!todos
+                             (remove :completed))
+                        :completed
+                        (->> @!todos
+                             (filter :completed)))]
     [:div
      [:header.header
       [:h1 "todos"]
@@ -32,7 +38,7 @@
       [:span
        [:input.toggle-all {:type "checkbox" :read-only true}]
        [:label]]
-      (->> @!todos
+      (->> visible-todos
            (map-indexed
             (fn [idx {:keys [label completed]}]
               [:li {:class (when completed "completed")}
@@ -52,9 +58,9 @@
            (into [:ul.todo-list]))]
      (when (seq @!todos)
        [:footer.footer {:data-testid "footer"}
-        [:span.todo-count (str active-count
+        [:span.todo-count (str (->> visible-todos count)
                                " "
-                               (if (= 1 active-count)
+                               (if (= 1 (->> visible-todos count))
                                  "item"
                                  "items")
                                " left")]
