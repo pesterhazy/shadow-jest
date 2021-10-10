@@ -1,6 +1,8 @@
 # shadow-jest
 
-What is shadow-jest? It's TodoMVC written in ClojureScript using TDD, with shadow-cljs, Jest and the excellent React Testing Library.
+![Screenshot](screenshot.png)
+
+Shadow-jest is demo app written in ClojureScript using TDD, with shadow-cljs, Jest and the excellent React Testing Library.
 
 1. Write production code only to pass a failing unit test
 
@@ -15,8 +17,13 @@ Rationale: Jest is a much better test runner than anything available for Clojure
 # Usage
 
 ```
+# Start the compilation
 npm run dev
+
+# Run the tests - we're doing TDD after all
 npm run test
+
+# Optionally (!) check what it actually looks like in the browser
 open http://localhost:8012/
 ```
 
