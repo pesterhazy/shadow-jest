@@ -7,7 +7,10 @@
 
 (defn app []
   (let [!input (uix/ref nil)
-        !todos (uix/state [{:label "Start REPL"}])]
+        !todos (uix/state [{:label "Start REPL"}])
+        active-count (->> @!todos
+                          (remove :completed)
+                          count)]
     [:div
      [:header.header
       [:h1 "todos"]
@@ -26,25 +29,31 @@
        [:input.toggle-all {:type "checkbox" :read-only true}]
        [:label]]
       (->> @!todos
-           (map-indexed (fn [idx {:keys [label completed]}]
-                          [:li {:class (when completed "completed")}
-                           [:div.view
-                            [:input.toggle {:data-testid (str "toggle-" idx)
-                                            :type "checkbox"
-                                            :checked (boolean completed)
-                                            :on-change
-                                            (fn []
-                                              (swap! !todos update-in [idx :completed] not))}]
-                            [:label {:data-testid (str "item-" idx)}
-                             label]
-                            [:button.destroy {:data-testid "destroy"
-                                              :on-click
-                                              (fn []
-                                                (swap! !todos (partial vec-remove idx)))}]]]))
+           (map-indexed
+            (fn [idx {:keys [label completed]}]
+              [:li {:class (when completed "completed")}
+               [:div.view
+                [:input.toggle {:data-testid (str "toggle-" idx)
+                                :type "checkbox"
+                                :checked (boolean completed)
+                                :on-change
+                                (fn []
+                                  (swap! !todos update-in [idx :completed] not))}]
+                [:label {:data-testid (str "item-" idx)}
+                 label]
+                [:button.destroy {:data-testid "destroy"
+                                  :on-click
+                                  (fn []
+                                    (swap! !todos (partial vec-remove idx)))}]]]))
            (into [:ul.todo-list]))]
      (when (seq @!todos)
        [:footer.footer {:data-testid "footer"}
-        [:span.todo-count "1 item left"]
+        [:span.todo-count (str active-count
+                               " "
+                               (if (= 1 active-count)
+                                 "item"
+                                 "items")
+                               " left")]
         [:ul.filters
          [:li [:a.selected {:cursor :pointer} "All"]]
          [:li [:a {:cursor "pointer"} "Active"]]

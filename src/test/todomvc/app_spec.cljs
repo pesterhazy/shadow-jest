@@ -34,7 +34,9 @@
                (.toBeInTheDocument))
            (-> (js/expect (-> (rtl/screen.getByRole "textbox")
                               .-value))
-               (.toBe ""))))
+               (.toBe ""))
+           (-> (js/expect (rtl/screen.getByText "2 items left"))
+               (.toBeInTheDocument))))
 
 ;; FIXME: custom matcher for CLJS data structures?
 
@@ -68,4 +70,6 @@
            (rtl/fireEvent.click (rtl/screen.getByTestId "toggle-0"))
            (-> (js/expect (-> (rtl/screen.getByText "Start REPL")
                               (.closest "li")))
-               (.toHaveClass "completed"))))
+               (.toHaveClass "completed"))
+           (-> (js/expect (rtl/screen.getByText "0 items left"))
+               (.toBeInTheDocument))))
