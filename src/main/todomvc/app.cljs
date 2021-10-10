@@ -60,7 +60,7 @@
         (->> the-filters
              (map (fn [filter]
                     [:li {:key (name filter)}
-                     [:a {:cursor :pointer
+                     [:a {:style {:cursor :pointer}
                           :class (when (= filter @!filter) "selected")
                           :data-testid (str "filter-" (name filter))
                           :on-click (fn []
