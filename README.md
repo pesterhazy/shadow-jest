@@ -1,12 +1,23 @@
-Experiment in getting Shadow-cljs to work with Jest
+# shadow-jest
 
-Rationale: Jest is a much better test runner than anything available for ClojureScript, makes integration with jsdom and React Testing Library easy and supports parallel test runs in node.
+What is shadow-jest? It's TodoMVC written in ClojureScript using TDD, with shadow-cljs, Jest and the excellent React Testing Library.
+
+1. Write production code only to pass a failing unit test
+
+2. Write no more of a unit test than sufficient to fail
+
+3. Write no more production code than necessary to pass the one failing unit test
+
+# Why Jest?
+
+Rationale: Jest is a much better test runner than anything available for ClojureScript. It makes integration with jsdom and React Testing Library easy and supports parallel test runs in node.
 
 # Usage
 
 ```
 npm run dev
 npm run test
+open http://localhost:8012/
 ```
 
 # About TodoMVC
