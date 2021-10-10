@@ -16,7 +16,7 @@ As a matter of fact, with the advent of React Testing Library (and previously En
 
 Note that I don't think component tests can replace microtests or unit tests. Wherever you can extract business logic (conditional branching logic in Geepaw Hill's phrase) into a namespace, function, class or some other abstraction, making it into something that can be tested gracefully (rather than awkwardly) and in isolation (rather than in a tightly coupled way), then that's what you should do.
 
-However, in practice React component tend to contain a fair amount of business logic, so it's great to have a way to test that. The downside is that component tests, while multiple orders of magnitude faster and more reliable than end-to-end-tests, are still not as fast as we would like (at 50-100ms per test) to get the fast feedback we need for TDD. So as developers, we still need to work to improve our architecture to make it testable using traditional microtests. As it turns out, for microtests, which typically run very fast (<5ms), Jest is also a great tool, because it can parallelize test execution.
+However, in practice React component tend to contain a fair amount of business logic, so it's great to have a way to test that. The downside is that component tests, while multiple orders of magnitude faster and more reliable than end-to-end-tests, are still not as fast as we would like (at 10-50ms per test) to get the fast feedback we need for TDD. So as developers, we still need to work to improve our architecture to make it testable using traditional microtests. As it turns out, for microtests, which typically run very fast (<5ms), Jest is also a great tool, because it can parallelize test execution.
 
 ## Why Jest?
 
