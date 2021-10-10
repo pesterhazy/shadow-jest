@@ -25,6 +25,7 @@
                          editing
                          on-edit
                          on-edit-submit
+                         on-edit-cancel
                          on-toggle
                          on-destroy]}]
   (let [!wip (uix/state "")
@@ -61,10 +62,13 @@
                            :on-change (fn [ev]
                                         (reset! !wip (-> ev .-target .-value)))
                            :on-key-down (fn [ev]
-                                          (when (= "Enter" (.-key ev))
+                                          (case (.-key ev)
+                                            "Enter"
                                             (let [s (str/trim (.-value @!input))]
                                               (when (seq s)
-                                                (on-edit-submit idx s)))))}]]))
+                                                (on-edit-submit idx s)))
+                                            "Escape"
+                                            (on-edit-cancel)))}]]))
          (into [:ul.todo-list]))))
 
 ;; FIXME: rename other components to -ui?
@@ -135,6 +139,8 @@
                                (reset! !editing idx))
                     :on-edit-submit (fn [idx s]
                                       (swap! !todos assoc-in [idx :label] s)
+                                      (reset! !editing nil))
+                    :on-edit-cancel (fn []
                                       (reset! !editing nil))
                     :on-toggle (fn [idx] (swap! !todos update-in [idx :completed] not))
                     :on-destroy (fn [idx] (swap! !todos (partial vec-remove idx)))}]])

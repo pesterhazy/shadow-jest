@@ -147,6 +147,15 @@
                  (.toHaveValue "A"))
              (-> (js/expect input)
                  (.toHaveFocus))
+             (rtl/fireEvent.keyDown input
+                                    #js{:key "Escape",
+                                        :keyCode 27
+                                        :which 27})
+             (-> (js/expect li)
+                 .-not
+                 (.toHaveClass "editing")))
+           (rtl/fireEvent.doubleClick (rtl/screen.getByTestId "item-0"))
+           (let [input (rtl/screen.getByTestId "edit-0")]
              (rtl/fireEvent.change input
                                    #js{:target #js{:value "AAA"}})
              (rtl/fireEvent.keyDown input
