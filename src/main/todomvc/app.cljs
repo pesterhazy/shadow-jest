@@ -42,6 +42,8 @@
                                 (on-destroy idx))}]]]))
        (into [:ul.todo-list])))
 
+;; FIXME: rename other components to -ui?
+
 (defn filter-ui [{:keys [value on-change]}]
   (->> the-filters
        (map (fn [filter]
@@ -63,6 +65,10 @@
                                                (on-change (not checked)))
                                   :data-testid "toggle-all"}]
    [:label {:for :toggle-all}]])
+
+(defn clear-completed-ui [{:keys [on-click]}]
+  [:button.clear-completed {:on-click on-click}
+   "Clear completed"])
 
 (defn app [{:keys [initial-todos]}]
   (assert (vector? initial-todos))
@@ -109,4 +115,9 @@
                                  "items")
                                " left")]
         [filter-ui {:value @!filter
-                    :on-change (fn [filter] (reset! !filter filter))}]])]))
+                    :on-change (fn [filter] (reset! !filter filter))}]
+        [clear-completed-ui {:on-click
+                             (fn []
+                               (swap! !todos
+                                      #(->> %
+                                            (filterv (complement :completed)))))}]])]))

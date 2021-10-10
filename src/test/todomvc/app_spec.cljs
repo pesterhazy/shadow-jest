@@ -14,8 +14,8 @@
                                                        (:initial-todos opts)
                                                        [{:label "A"}])}]))))
 
-(defn get-all-labels []
-  (->> (rtl/screen.getAllByTestId #"item")
+(defn query-all-labels []
+  (->> (rtl/screen.queryAllByTestId #"item")
        (map #(.-textContent %))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -68,7 +68,7 @@
            (render)
            (rtl/fireEvent.keyDown (rtl/screen.getByRole "textbox")
                                   #js{:key "Enter" :code 13 :charCode 13})
-           (-> (js/expect (explain-not= (get-all-labels) ["A"]))
+           (-> (js/expect (explain-not= (query-all-labels) ["A"]))
                (.toBeNull))))
 
 (js/test "remove todo"
@@ -90,14 +90,17 @@
                               (.closest "li")))
                (.toHaveClass "completed"))
            (-> (js/expect (rtl/screen.getByText "0 items left"))
-               (.toBeInTheDocument))))
+               (.toBeInTheDocument))
+           (rtl/fireEvent.click (rtl/screen.getByText "Clear completed"))
+           (-> (js/expect (explain-not= [] (query-all-labels)))
+               (.toBeNull))))
 
 (js/test "select filter"
          (fn []
            (render {:initial-todos [{:label "A" :completed false}
                                     {:label "B" :completed true}
                                     {:label "C" :completed false}]})
-           (-> (js/expect (explain-not= ["A" "B" "C"] (get-all-labels)))
+           (-> (js/expect (explain-not= ["A" "B" "C"] (query-all-labels)))
                (.toBeNull))
            (rtl/fireEvent.click (rtl/screen.getByTestId "filter-active"))
            (-> (js/expect (rtl/screen.getByText "All"))
@@ -105,12 +108,12 @@
                (.toHaveClass "selected"))
            (-> (js/expect (rtl/screen.getByText "Active"))
                (.toHaveClass "selected"))
-           (-> (js/expect (explain-not= ["A" "C"] (get-all-labels)))
+           (-> (js/expect (explain-not= ["A" "C"] (query-all-labels)))
                (.toBeNull))
            (rtl/fireEvent.click (rtl/screen.getByTestId "filter-completed"))
            (-> (js/expect (rtl/screen.getByText "Completed"))
                (.toHaveClass "selected"))
-           (-> (js/expect (explain-not= ["B"] (get-all-labels)))
+           (-> (js/expect (explain-not= ["B"] (query-all-labels)))
                (.toBeNull))))
 
 (js/test "toggle all"
