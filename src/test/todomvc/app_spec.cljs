@@ -18,6 +18,9 @@
   (->> (rtl/screen.queryAllByTestId #"item")
        (map #(.-textContent %))))
 
+(defn get-new-todo []
+  (rtl/screen.getByPlaceholderText "What needs to be done?"))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; tests
 
@@ -44,14 +47,13 @@
 (js/test "add todo"
          (fn []
            (render)
-           (rtl/fireEvent.change (rtl/screen.getByRole "textbox")
+           (rtl/fireEvent.change (get-new-todo)
                                  #js{:target #js{:value "B"}})
-           (rtl/fireEvent.keyDown (rtl/screen.getByRole "textbox")
+           (rtl/fireEvent.keyDown (get-new-todo)
                                   #js{:key "Enter" :code 13 :charCode 13})
            (-> (js/expect (rtl/screen.getByText "B"))
                (.toBeInTheDocument))
-           (-> (js/expect (-> (rtl/screen.getByRole "textbox")
-                              .-value))
+           (-> (js/expect (-> (get-new-todo) .-value))
                (.toBe ""))
            (-> (js/expect (rtl/screen.getByText "2 items left"))
                (.toBeInTheDocument))))
@@ -66,7 +68,7 @@
 (js/test "can't create empty todo"
          (fn []
            (render)
-           (rtl/fireEvent.keyDown (rtl/screen.getByRole "textbox")
+           (rtl/fireEvent.keyDown (get-new-todo)
                                   #js{:key "Enter" :code 13 :charCode 13})
            (-> (js/expect (explain-not= (query-all-labels) ["A"]))
                (.toBeNull))))
@@ -127,3 +129,15 @@
            (-> (js/expect (-> (rtl/screen.getByText "B")
                               (.closest "li")))
                (.toHaveClass "completed"))))
+
+(js/test "edit todo"
+         (fn []
+           (render)
+           (-> (js/expect (-> (rtl/screen.getByText "A")
+                              (.closest "li")))
+               .-not
+               (.toHaveClass "editing"))
+           (rtl/fireEvent.doubleClick (rtl/screen.getByTestId "item-0"))
+           (-> (js/expect (-> (rtl/screen.getByText "A")
+                              (.closest "li")))
+               (.toHaveClass "editing"))))

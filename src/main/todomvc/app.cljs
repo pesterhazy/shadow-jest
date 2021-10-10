@@ -7,6 +7,7 @@
 
 (def the-filters [:all :active :completed])
 
+;; FIXME: terrible name
 (defn search-box [{:keys [on-submit]}]
   (let [!input (uix/ref nil)]
     [:input.new-todo {:type "text"
@@ -21,12 +22,15 @@
                       :ref !input}]))
 
 (defn todo-list [{:keys [todos
+                         editing
+                         on-edit
                          on-toggle
                          on-destroy]}]
   (->> todos
        (map-indexed
         (fn [idx {:keys [label completed]}]
-          [:li {:class (when completed "completed")}
+          [:li {:class [(when completed "completed")
+                        (when (= editing idx) "editing")]}
            [:div.view
             [:input.toggle {:data-testid (str "toggle-" idx)
                             :type "checkbox"
@@ -34,12 +38,15 @@
                             :on-change
                             (fn []
                               (on-toggle idx))}]
-            [:label {:data-testid (str "item-" idx)}
+            [:label {:data-testid (str "item-" idx)
+                     :on-double-click (fn []
+                                        (on-edit idx))}
              label]
             [:button.destroy {:data-testid "destroy"
                               :on-click
                               (fn []
-                                (on-destroy idx))}]]]))
+                                (on-destroy idx))}]]
+           [:input.edit {:type "text" :data-testid (str "edit-" idx)}]]))
        (into [:ul.todo-list])))
 
 ;; FIXME: rename other components to -ui?
@@ -74,6 +81,7 @@
   (assert (vector? initial-todos))
   (let [!todos (uix/state initial-todos)
         !filter (uix/state :all)
+        !editing (uix/state nil)
         visible-todos (case @!filter
                         :all
                         @!todos
@@ -104,6 +112,9 @@
                                        (mapv (fn [todo]
                                                (assoc todo :completed checked))))))}]
         [todo-list {:todos visible-todos
+                    :editing @!editing
+                    :on-edit (fn [idx]
+                               (reset! !editing idx))
                     :on-toggle (fn [idx] (swap! !todos update-in [idx :completed] not))
                     :on-destroy (fn [idx] (swap! !todos (partial vec-remove idx)))}]])
      (when (seq @!todos)
