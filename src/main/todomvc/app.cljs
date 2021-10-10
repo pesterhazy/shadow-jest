@@ -57,12 +57,12 @@
 (defn toggle-all-ui [{:keys [checked
                              on-change]}]
   [:span
-   [:input.toggle-all {:type "checkbox"
-                       :checked checked
-                       :on-change (fn []
-                                    (on-change (not checked)))
-                       :data-testid "toggle-all"}]
-   [:label]])
+   [:input.toggle-all#toggle-all {:type "checkbox"
+                                  :checked (boolean checked)
+                                  :on-change (fn []
+                                               (on-change (not checked)))
+                                  :data-testid "toggle-all"}]
+   [:label {:for :toggle-all}]])
 
 (defn app [{:keys [initial-todos]}]
   (assert (vector? initial-todos))
@@ -86,7 +86,10 @@
       [:h1 "todos"]
       [search-box {:on-submit (fn [s] (swap! !todos conj {:label s}))}]]
      [:section.main
-      [toggle-all-ui {:checked false
+      [toggle-all-ui {:checked (if (->> @!todos
+                                        (every? :completed))
+                                 true
+                                 false)
                       :on-change
                       (fn [checked]
                         (swap! !todos
