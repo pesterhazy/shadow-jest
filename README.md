@@ -14,6 +14,10 @@ Following TDD is generally hard to do well in frontend development but — as I'
 
 As a matter of fact, with the advent of React Testing Library (and previously Enzyme), component tests have now emerged as a significant category of tests alongside traditional microtests or unit tests on the one side and end-to-end tests on the other.
 
+Note that I don't think component tests can replace microtests or unit tests. Wherever you can extract business logic (conditional branching logic in Geepaw Hill's phrase) into a namespace, function, class or some other abstraction, making it into something that can be tested gracefully (rather than awkwardly) and in isolation (rather than in a tightly coupled way), then that's what you should do.
+
+However, in practice React component tend to contain a fair amount of business logic, so it's great to have a way to test that. The downside is that component tests, while multiple orders of magnitude faster and more reliable than end-to-end-tests, are still not as fast as we would like (at 50-100ms per test) to get the fast feedback we need for TDD. So as developers, we still need to work to improve our architecture to make it testable using traditional microtests. As it turns out, for microtests, which typically run very fast (<5ms), Jest is also a great tool, because it can parallelize test execution.
+
 ## Why Jest?
 
 Jest is a state-of-the-art test runner, much better than anything available for ClojureScript. It makes integration with jsdom and React Testing Library easy and supports parallel test runs in node.
@@ -26,8 +30,27 @@ It's often thought that ClojureScript should be tested by using tools that are n
 - Isolating test runs using `test.skip` and `test.only`
 - Running code in node rather than the browser
 - Fake timers and mocking support
-- Integration with JSDOM
+- Integration with jsdom
 - Integration with React Testing Library
+
+Jest uses a fluent-style DSL
+
+```
+test("reverse", () => {
+  expect(reverse("Quark")).toBe("krauQ");
+}
+```
+
+which translates to
+
+```
+(js/test "reverse"
+         (fn []
+           (-> (js/expect (clojure.string/reverse "Quark"))
+               (.toBe "krauQ"))))
+```
+
+Perhaps this is (subjectively) inferior to JUnit style assertions, but it's not hard to get over this initial hurdle.
 
 ## Why UIx?
 
