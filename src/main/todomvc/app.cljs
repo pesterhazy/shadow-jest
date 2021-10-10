@@ -40,8 +40,19 @@
                               :on-click
                               (fn []
                                 (on-destroy idx))}]]]))
-       (into [:ul.todo-list]))
-  )
+       (into [:ul.todo-list])))
+
+(defn filter-ui [{:keys [value on-change]}]
+  (->> the-filters
+       (map (fn [filter]
+              [:li {:key (name filter)}
+               [:a {:style {:cursor :pointer}
+                    :class (when (= filter value) "selected")
+                    :data-testid (str "filter-" (name filter))
+                    :on-click (fn []
+                                (on-change filter))}
+                (str/capitalize (name filter))]]))
+       (into [:ul.filters])))
 
 (defn app [{:keys [initial-todos]}]
   (assert (vector? initial-todos))
@@ -79,13 +90,5 @@
                                  "item"
                                  "items")
                                " left")]
-        (->> the-filters
-             (map (fn [filter]
-                    [:li {:key (name filter)}
-                     [:a {:style {:cursor :pointer}
-                          :class (when (= filter @!filter) "selected")
-                          :data-testid (str "filter-" (name filter))
-                          :on-click (fn []
-                                      (reset! !filter filter))}
-                      (str/capitalize (name filter))]]))
-             (into [:ul.filters]))])]))
+        [filter-ui {:value @!filter
+                    :on-change (fn [filter] (reset! !filter filter))}]])]))
