@@ -35,10 +35,10 @@
          (fn []
            (render)
            (rtl/fireEvent.change (rtl/screen.getByRole "textbox")
-                                 #js{:target #js{:value "Write macros"}})
+                                 #js{:target #js{:value "B"}})
            (rtl/fireEvent.keyDown (rtl/screen.getByRole "textbox")
                                   #js{:key "Enter" :code 13 :charCode 13})
-           (-> (js/expect (rtl/screen.getByText "Write macros"))
+           (-> (js/expect (rtl/screen.getByText "B"))
                (.toBeInTheDocument))
            (-> (js/expect (-> (rtl/screen.getByRole "textbox")
                               .-value))
