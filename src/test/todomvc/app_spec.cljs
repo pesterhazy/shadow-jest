@@ -1,7 +1,8 @@
 (ns todomvc.app-spec
   (:require ["@testing-library/react" :as rtl]
             [uix.core.alpha :as uix]
-            [todomvc.app :as x]))
+            [todomvc.app :as x]
+            [jest.matchers]))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; test helpers
@@ -58,20 +59,13 @@
            (-> (js/expect (rtl/screen.getByText "2 items left"))
                (.toBeInTheDocument))))
 
-;; FIXME: custom matcher for CLJS data structures?
-
-(defn explain-not= [a b]
-  (if (= a b)
-    nil
-    (str "Not the same: " (pr-str [a b]))))
-
 (js/test "can't create empty todo"
          (fn []
            (render)
            (rtl/fireEvent.keyDown (get-new-todo)
                                   #js{:key "Enter" :code 13 :charCode 13})
-           (-> (js/expect (explain-not= (query-all-labels) ["A"]))
-               (.toBeNull))))
+           (-> (js/expect (query-all-labels))
+               (.toEq ["A"]))))
 
 (js/test "remove todo"
          (fn []
@@ -94,29 +88,29 @@
            (-> (js/expect (rtl/screen.getByText "0 items left"))
                (.toBeInTheDocument))
            (rtl/fireEvent.click (rtl/screen.getByText "Clear completed"))
-           (-> (js/expect (explain-not= [] (query-all-labels)))
-               (.toBeNull))))
+           (-> (js/expect (query-all-labels))
+               (.toEq []))))
 
 (js/test "select filter"
          (fn []
            (render {:initial-todos [{:label "A" :completed false}
                                     {:label "B" :completed true}
                                     {:label "C" :completed false}]})
-           (-> (js/expect (explain-not= ["A" "B" "C"] (query-all-labels)))
-               (.toBeNull))
+           (-> (js/expect (query-all-labels))
+               (.toEq ["A" "B" "C"]))
            (rtl/fireEvent.click (rtl/screen.getByTestId "filter-active"))
            (-> (js/expect (rtl/screen.getByText "All"))
                (.-not)
                (.toHaveClass "selected"))
            (-> (js/expect (rtl/screen.getByText "Active"))
                (.toHaveClass "selected"))
-           (-> (js/expect (explain-not= ["A" "C"] (query-all-labels)))
-               (.toBeNull))
+           (-> (js/expect (query-all-labels))
+               (.toEq ["A" "C"]))
            (rtl/fireEvent.click (rtl/screen.getByTestId "filter-completed"))
            (-> (js/expect (rtl/screen.getByText "Completed"))
                (.toHaveClass "selected"))
-           (-> (js/expect (explain-not= ["B"] (query-all-labels)))
-               (.toBeNull))))
+           (-> (js/expect (query-all-labels))
+               (.toEq ["B"]))))
 
 (js/test "toggle all"
          (fn []
