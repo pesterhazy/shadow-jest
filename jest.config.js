@@ -171,7 +171,11 @@ module.exports = {
   // timers: "real",
 
   // A map from regular expressions to paths to transformers
-  // transform: undefined,
+  // WARNING: this needs to be set explicitly to an empty map, because
+  // undefined will trigger the default transformer, map which
+  // feeds all input through babel. This useless step makes the initial
+  // test run at least 5x slower, sometimes more
+  transform: {},
 
   // An array of regexp pattern strings that are matched against all source file paths, matched files will skip transformation
   // transformIgnorePatterns: [
