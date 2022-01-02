@@ -4,7 +4,7 @@
  #js{:toEq
      (fn toEq [received expected]
        (this-as
-         this
+         ^js this
          (let [opts #js{:comment "clojure.core/= equality"
                         :isNot (.-isNot this)
                         :promise (.-promise this)}
