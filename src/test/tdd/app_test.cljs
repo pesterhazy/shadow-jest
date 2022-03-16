@@ -12,6 +12,11 @@
            (-> (js/expect (x/rot13 "a"))
                (.toEqual "n"))))
 
+(js/test "handles uppercase letter"
+         (fn []
+           (-> (js/expect (x/rot13 "A"))
+               (.toEqual "N"))))
+
 (js/test "handles numbers"
          (fn []
            (-> (js/expect (x/rot13 "1"))
@@ -26,6 +31,3 @@
          (fn []
            (-> (js/expect (x/rot13 "hello"))
                (.toEqual "uryyb"))))
-
-;; upper case
-;; numbers
