@@ -29,5 +29,5 @@
 
 (js/test "handles multiple letter"
          (fn []
-           (-> (js/expect (x/rot13 "hello"))
-               (.toEqual "uryyb"))))
+           (-> (js/expect (x/rot13 "Hello n1ce World"))
+               (.toEqual "Uryyb a1pr Jbeyq"))))
