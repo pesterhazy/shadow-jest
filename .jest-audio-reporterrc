@@ -1,4 +1,6 @@
 {
+  "onStart": "build/sounds/start.wav",
+  "onStartThreshold": 0,
   "onSuitePass": "build/sounds/success.wav",
   "onSuiteFailure": "build/sounds/fail.wav"
 }
