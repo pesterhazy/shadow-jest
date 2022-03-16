@@ -194,4 +194,9 @@ module.exports = {
 
   // Whether to use watchman for file crawling
   // watchman: true,
+
+  "reporters": [
+      "default", // using default reporter
+    "jest-audio-reporter"
+  ]
 };

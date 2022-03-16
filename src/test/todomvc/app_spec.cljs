@@ -2,7 +2,7 @@
   (:require [todomvc.app :as x]
             [jest.matchers]))
 
-(js/test "fail"
+(js/test "tests run"
          (fn []
            (-> (js/expect 1)
                (.toEqual 1))))
