@@ -11,3 +11,13 @@
          (fn []
            (-> (js/expect (x/rot13 "a"))
                (.toEqual "n"))))
+
+(js/test "handles letter after n"
+         (fn []
+           (-> (js/expect (x/rot13 "o"))
+               (.toEqual "b"))))
+
+(js/test "handles multiple letter"
+         (fn []
+           (-> (js/expect (x/rot13 "hello"))
+               (.toEqual "uryyb"))))
