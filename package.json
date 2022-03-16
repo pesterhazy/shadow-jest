@@ -10,7 +10,8 @@
   },
   "scripts": {
     "dev": "clojure -M:shadow-cljs watch app test",
-    "test": "jest --watchAll"
+    "test": "jest --watchAll",
+    "start": "node dist/todomvc.main.js"
   },
   "dependencies": {
     "jest-audio-reporter": "^2.2.3",
