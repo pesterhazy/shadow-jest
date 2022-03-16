@@ -1,5 +1,5 @@
-(ns todomvc.app-spec
-  (:require [todomvc.app :as x]
+(ns tdd.app-spec
+  (:require [tdd.app :as x]
             [jest.matchers]))
 
 (js/test "tests run"

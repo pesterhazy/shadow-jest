@@ -6,7 +6,7 @@
  :builds
  {:app {:target :npm-module
         :output-dir "dist"
-        :entries [todomvc.main]}
+        :entries [tdd.main]}
   :test {:target :npm-module
          :ns-regexp "-spec$"
          :output-dir "dist-test"}}}
