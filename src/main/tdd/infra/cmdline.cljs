@@ -9,7 +9,7 @@
      :!last-output !last-output}))
 
 (defn write [cmdline s]
-  (-> (:process cmdline) .-stdout (.write (str s "\n"))))
+  (-> ^js (:process cmdline) .-stdout (.write (str s "\n"))))
 
 (defn last-output [cmdline]
   @(:!last-output cmdline))
