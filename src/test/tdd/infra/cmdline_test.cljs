@@ -1,6 +1,5 @@
 (ns tdd.infra.cmdline-test
-  (:require [tdd.infra.cmdline :as x]
-            jest.matchers))
+  (:require [tdd.infra.cmdline :as x]))
 
 (js/test
  "writes output"

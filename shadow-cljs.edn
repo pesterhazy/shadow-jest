@@ -6,5 +6,5 @@
         :output-dir "dist"
         :entries [tdd.main]}
   :test {:target :npm-module
-         :ns-regexp "-test$"
+         :ns-regexp "(-test$|^jest.matchers$)"
          :output-dir "dist-test"}}}

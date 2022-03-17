@@ -1,7 +1,6 @@
 (ns tdd.app-test
   (:require [tdd.app :as x]
-            [tdd.infra.cmdline :as cmdline]
-            [jest.matchers]))
+            [tdd.infra.cmdline :as cmdline]))
 
 (js/test
  "runs the app"

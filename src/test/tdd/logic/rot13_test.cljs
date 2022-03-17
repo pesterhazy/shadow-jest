@@ -1,6 +1,5 @@
 (ns tdd.logic.rot13-test
-  (:require [tdd.logic.rot13 :as x]
-            [jest.matchers]))
+  (:require [tdd.logic.rot13 :as x]))
 
 (js/test "handles empty string"
          (fn []
