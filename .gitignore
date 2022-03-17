@@ -22,3 +22,4 @@ pom.xml.asc
 dist-test
 .cpcache
 dist
+.clj-kondo
