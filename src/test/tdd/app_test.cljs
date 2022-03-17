@@ -1,7 +1,12 @@
 (ns tdd.app-test
   (:require [tdd.app :as x]
+            [tdd.infra.cmdline :as cmdline]
             [jest.matchers]))
 
 (js/test
- "dummy"
- (fn [] (-> (js/expect 1) (.toBe 1))))
+ "runs the app"
+ (fn []
+   (let [cmdline (cmdline/create-null)
+         app (x/create {:cmdline cmdline})]
+     (x/run app)
+     (-> (js/expect (cmdline/last-output cmdline)) (.toBe "hello\n")))))
