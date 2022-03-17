@@ -1,4 +1,4 @@
-(ns jest.matchers)
+(ns jest-cljs.matchers)
 
 (defn toEq [received expected]
   (this-as

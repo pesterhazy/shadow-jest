@@ -1,2 +1,1 @@
-- rename jest.matchers to jest-cljs.matchers
 - try out introduce-let and other code actions
