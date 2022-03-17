@@ -1,3 +1,5 @@
-(ns tdd.main)
+(ns tdd.main
+  (:require [tdd.infra.cmdline :as cmdline]))
 
-(prn :hello)
+(let [cmdline (cmdline/create)]
+  (cmdline/write cmdline "hello"))
