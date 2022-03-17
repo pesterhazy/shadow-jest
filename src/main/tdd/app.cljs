@@ -6,4 +6,11 @@
   {:cmdline cmdline})
 
 (defn run [{:keys [cmdline]}]
-  (cmdline/write cmdline (rot13/rot13 (first (cmdline/args cmdline)))))
+  (let [args (cmdline/args cmdline)]
+    (cond
+      (< (count args) 1)
+      (cmdline/write cmdline "Too few args")
+      (> (count args) 1)
+      (cmdline/write cmdline "Too many args")
+      :else
+      (cmdline/write cmdline (rot13/rot13 (first args))))))
