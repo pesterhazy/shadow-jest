@@ -1,4 +1,2 @@
-- convert arg
-- update shadow-cljs
+- rename jest.matchers to jest-cljs.matchers
 - try out introduce-let and other code actions
-- remove cruft from shadow.edn, packages.json
