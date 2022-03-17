@@ -6,7 +6,7 @@
 (js/test
  "runs the app"
  (fn []
-   (let [cmdline (cmdline/create-null)
+   (let [cmdline (cmdline/create-null {:args ["Hello"]})
          app (x/create {:cmdline cmdline})]
      (x/run app)
-     (-> (js/expect (cmdline/last-output cmdline)) (.toBe "hello\n")))))
+     (-> (js/expect (cmdline/last-output cmdline)) (.toBe "Uryyb\n")))))

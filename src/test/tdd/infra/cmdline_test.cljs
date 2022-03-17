@@ -11,6 +11,13 @@
          (.toBe "foo\n")))))
 
 (js/test
+ "returns empty args"
+ (fn []
+   (let [cmdline (x/create-null)]
+     (-> (js/expect (x/args cmdline))
+         (.toEq [])))))
+
+(js/test
  "gets args"
  (fn []
    (let [cmdline (x/create-null {:args ["a" "b" "c"]})]
