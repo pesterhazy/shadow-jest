@@ -7,4 +7,4 @@
    (let [cmdline (x/create-null)]
      (x/write cmdline "foo")
      (-> (js/expect (x/last-output cmdline))
-         (.toBe "foo")))))
+         (.toBe "foo\n")))))
