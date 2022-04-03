@@ -13,5 +13,7 @@
     "test": "jest --watchAll",
     "start": "node dist/tdd.main.js"
   },
-  "dependencies": {}
+  "dependencies": {
+    "regex-escape": "^3.4.10"
+  }
 }

@@ -82,3 +82,9 @@
  (fn []
    (-> (expect (calc/add "//;\n1;2"))
        (.toBe 3))))
+
+(test
+ "allows regex chars as alternative delimiter"
+ (fn []
+   (-> (expect (calc/add "//[\n1[2"))
+       (.toBe 3))))

@@ -1,4 +1,5 @@
-(ns tdd.logic.calc)
+(ns tdd.logic.calc
+  (:require ["regex-escape" :as escape]))
 
 (defn parse-int [s]
   (if (= s "")
@@ -17,7 +18,7 @@
        (add (m 2) (m 1))
        (let [segments (map (fn [s]
                              (parse-int s))
-                           (.split s (re-pattern (str delim "|\n"))))]
+                           (.split s (re-pattern (str (escape delim) "|\n"))))]
          (when (empty? segments)
            (throw (js/Error. (str "Invalid input: " s))))
          (reduce + 0 segments))))))
