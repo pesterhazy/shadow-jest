@@ -1,6 +1,8 @@
-(ns tdd.logic.calc)
+(ns tdd.logic.calc
+  (:require
+   [clojure.string :as string]))
 
 (defn add [s]
   (if (empty? s)
     0
-    (js/parseInt s)))
+    (->> (string/split s ",") (map #(js/parseInt %)) (reduce + 0))))

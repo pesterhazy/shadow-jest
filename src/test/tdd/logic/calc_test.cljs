@@ -19,3 +19,9 @@
  (fn []
    (-> (expect (calc/add "2"))
        (.toBe 2))))
+
+(test
+ "performs simple addition"
+ (fn []
+   (-> (expect (calc/add "1,2"))
+       (.toBe 3))))
