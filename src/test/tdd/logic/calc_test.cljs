@@ -31,3 +31,15 @@
  (fn []
    (-> (expect (fn [] (calc/add "a")))
        (.toThrow #"Invalid input"))))
+
+(test
+ "throws on bare comma"
+ (fn []
+   (-> (expect (fn [] (calc/add ",")))
+       (.toThrow #"Invalid input"))))
+
+(test
+ "throws on stray comma"
+ (fn []
+   (-> (expect (fn [] (calc/add ",1")))
+       (.toThrow #"Invalid input"))))
