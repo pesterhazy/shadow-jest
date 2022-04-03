@@ -1,4 +1,2 @@
-- better printing for toEq
-- try out introduce-let and other code actions
 - colocate tests in src
 - avoid warning for test.skip
