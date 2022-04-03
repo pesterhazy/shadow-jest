@@ -1,4 +1,6 @@
 (ns tdd.logic.calc)
 
 (defn add [s]
-  0)
+  (if (empty? s)
+    0
+    (js/parseInt s)))
