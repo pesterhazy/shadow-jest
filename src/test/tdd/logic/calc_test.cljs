@@ -27,6 +27,12 @@
        (.toBe 3))))
 
 (test
+ "handle newlines"
+ (fn []
+   (-> (expect (calc/add "1\n2,3"))
+       (.toBe 6))))
+
+(test
  "throws on invalid input"
  (fn []
    (-> (expect (fn [] (calc/add "a")))
@@ -39,7 +45,19 @@
        (.toThrow #"Invalid input"))))
 
 (test
- "throws on stray comma"
+ "throws on leading comma"
  (fn []
    (-> (expect (fn [] (calc/add ",1")))
+       (.toThrow #"Invalid input"))))
+
+(test
+ "throws on traling comma"
+ (fn []
+   (-> (expect (fn [] (calc/add "1,")))
+       (.toThrow #"Invalid input"))))
+
+(test
+ "throws on traling comma and newline"
+ (fn []
+   (-> (expect (fn [] (calc/add "1,\n")))
        (.toThrow #"Invalid input"))))
