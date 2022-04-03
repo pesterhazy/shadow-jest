@@ -1,1 +1,2 @@
 - try out introduce-let and other code actions
+- colocate tests in src
