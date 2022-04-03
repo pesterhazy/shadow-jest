@@ -60,6 +60,12 @@
           (.toThrow #"Invalid input"))))
 
    (test
+    "throws on invalid input"
+    (fn []
+      (-> (expect (fn [] (calc/add "1a")))
+          (.toThrow #"Invalid input"))))
+
+   (test
     "throws on traling comma and newline"
     (fn []
       (-> (expect (fn [] (calc/add "1,\n")))
@@ -69,4 +75,10 @@
  "parses delimiter line"
  (fn []
    (-> (expect (calc/add "//,\n1,2"))
+       (.toBe 3))))
+
+(test
+ "uses alternative delimiter"
+ (fn []
+   (-> (expect (calc/add "//;\n1;2"))
        (.toBe 3))))
