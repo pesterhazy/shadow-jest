@@ -106,3 +106,15 @@
  (fn []
    (-> (expect (calc/add "2,1001"))
        (.toBe 2))))
+
+(test
+ "parses extended delimiter line"
+ (fn []
+   (-> (expect (calc/add "//[,]\n1,2"))
+       (.toBe 3))))
+
+(test
+ "uses extended delimiter line"
+ (fn []
+   (-> (expect (calc/add "//[***]\n1***2"))
+       (.toBe 3))))
