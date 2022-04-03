@@ -10,22 +10,32 @@
         (throw (js/Error. (str "Invalid input: " s))))
       r)))
 
-(defn find-delim [s]
+(defn find-delims
+  "Returns nil or [s delims]"
+  [s]
   (if-let [m (re-matches #"//(.)\n(.*)" s)]
-    [(m 2) (m 1)]
-    (if-let [m (re-matches #"//\[(.+)\]\n(.*)" s)]
-      [(m 2) (m 1)]
+    [(m 2) [(m 1)]]
+    (if-let [[_ delim-line s] (re-matches #"//(\[.+\])\n(.*)" s)]
+      [s (->> delim-line
+              (re-seq #"\[(.+?)\]")
+              (map second)
+              vec)]
       nil)))
 
 (defn add
-  ([s] (add s ","))
-  ([s delim]
+  ([s] (add s [","]))
+  ([s delims]
    (if (empty? s)
      0
-     (if-let [[new-s delim] (find-delim s)]
-       (add new-s delim)
-       (let [numbers
-             (->> (.split s (re-pattern (str (escape delim) "|\n")))
+     (if-let [[new-s new-delims] (find-delims s)]
+       (add new-s new-delims)
+       (let [regex (str (->> delims
+                             (map escape)
+                             (string/join "|"))
+                        "|\n")
+             numbers
+             (->> (.split s
+                          (re-pattern regex))
                   (map parse-number))
              negs
              (->> numbers (filter neg?))]

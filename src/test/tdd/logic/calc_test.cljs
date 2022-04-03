@@ -118,3 +118,34 @@
  (fn []
    (-> (expect (calc/add "//[***]\n1***2"))
        (.toBe 3))))
+
+(test
+ "allows multiple extended delimiters"
+ (fn []
+   (-> (expect (calc/add "//[***][+++]\n1***2+++3"))
+       (.toBe 6))))
+
+
+(test
+ "finds no delim"
+ (fn []
+   (-> (expect (calc/find-delims "1,2"))
+       (.toBe nil))))
+
+(test
+ "finds simple delim"
+ (fn []
+   (-> (expect (calc/find-delims "//*\n1*2"))
+       (.toEq ["1*2" ["*"]]))))
+
+(test
+ "finds extended delim"
+ (fn []
+   (-> (expect (calc/find-delims "//[***]\n1***2"))
+       (.toEq ["1***2" ["***"]]))))
+
+(test
+ "finds multiple extended delims"
+ (fn []
+   (-> (expect (calc/find-delims "//[***][+++]\n1***2"))
+       (.toEq ["1***2" ["***" "+++"]]))))
