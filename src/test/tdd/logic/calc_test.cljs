@@ -25,3 +25,9 @@
  (fn []
    (-> (expect (calc/add "1,2"))
        (.toBe 3))))
+
+(test
+ "throws on invalid input"
+ (fn []
+   (-> (expect (fn [] (calc/add "a")))
+       (.toThrow #"Invalid input"))))
