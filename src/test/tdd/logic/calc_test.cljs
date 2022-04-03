@@ -1,5 +1,5 @@
 (ns tdd.logic.calc-test
-  (:require ["@jest/globals" :refer [test expect]]
+  (:require ["@jest/globals" :refer [test expect describe]]
             [tdd.logic.calc :as calc]))
 
 (test
@@ -32,32 +32,41 @@
    (-> (expect (calc/add "1\n2,3"))
        (.toBe 6))))
 
-(test
- "throws on invalid input"
+(describe
+ "error handling"
  (fn []
-   (-> (expect (fn [] (calc/add "a")))
-       (.toThrow #"Invalid input"))))
+   (test
+    "throws on invalid input"
+    (fn []
+      (-> (expect (fn [] (calc/add "a")))
+          (.toThrow #"Invalid input"))))
+
+   (test
+    "throws on bare comma"
+    (fn []
+      (-> (expect (fn [] (calc/add ",")))
+          (.toThrow #"Invalid input"))))
+
+   (test
+    "throws on leading comma"
+    (fn []
+      (-> (expect (fn [] (calc/add ",1")))
+          (.toThrow #"Invalid input"))))
+
+   (test
+    "throws on traling comma"
+    (fn []
+      (-> (expect (fn [] (calc/add "1,")))
+          (.toThrow #"Invalid input"))))
+
+   (test
+    "throws on traling comma and newline"
+    (fn []
+      (-> (expect (fn [] (calc/add "1,\n")))
+          (.toThrow #"Invalid input"))))))
 
 (test
- "throws on bare comma"
+ "parses delimiter line"
  (fn []
-   (-> (expect (fn [] (calc/add ",")))
-       (.toThrow #"Invalid input"))))
-
-(test
- "throws on leading comma"
- (fn []
-   (-> (expect (fn [] (calc/add ",1")))
-       (.toThrow #"Invalid input"))))
-
-(test
- "throws on traling comma"
- (fn []
-   (-> (expect (fn [] (calc/add "1,")))
-       (.toThrow #"Invalid input"))))
-
-(test
- "throws on traling comma and newline"
- (fn []
-   (-> (expect (fn [] (calc/add "1,\n")))
-       (.toThrow #"Invalid input"))))
+   (-> (expect (calc/add "//,\n1,2"))
+       (.toBe 3))))
