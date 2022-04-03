@@ -1,5 +1,6 @@
 (ns tdd.logic.calc
-  (:require ["regex-escape" :as escape]))
+  (:require ["regex-escape" :as escape]
+            [clojure.string :as string]))
 
 (defn parse-number [s]
   (if (= s "")
@@ -16,6 +17,12 @@
      0
      (if-let [m (re-matches #"//(.)\n(.*)" s)]
        (add (m 2) (m 1))
-       (->> (.split s (re-pattern (str (escape delim) "|\n")))
-            (map parse-number)
-            (reduce + 0))))))
+       (let [numbers
+             (->> (.split s (re-pattern (str (escape delim) "|\n")))
+                  (map parse-number))
+             negs
+             (->> numbers (filter neg?))]
+         (when (seq negs)
+           (throw (js/Error. (str "Negative numbers not allowed: "
+                                  (->> negs (string/join ", "))))))
+         (reduce + 0 numbers))))))

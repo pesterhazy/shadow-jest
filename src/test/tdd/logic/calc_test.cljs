@@ -88,3 +88,15 @@
  (fn []
    (-> (expect (calc/add "//[\n1[2"))
        (.toBe 3))))
+
+(test
+ "rejects negative numbers"
+ (fn []
+   (-> (expect #(calc/add "-1"))
+       (.toThrow #"Negative numbers not allowed"))))
+
+(test
+ "rejects multiple negative numbers with meaningful error message"
+ (fn []
+   (-> (expect #(calc/add "-1,-2"))
+       (.toThrow #"Negative numbers not allowed: -1, -2"))))
