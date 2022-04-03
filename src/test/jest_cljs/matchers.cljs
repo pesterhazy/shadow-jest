@@ -6,29 +6,34 @@
     (let [opts #js{:comment "clojure.core/= equality"
                    :isNot (.-isNot this)
                    :promise (.-promise this)}
+          utils (.-utils this)
           pass (= expected received)
           message
-          (fn [] (if pass
-                   (str
-                    (-> this
-                        .-utils
-                        (.matcherHint "toEq" js/undefined js/undefined opts))
-                    "\n\n"
-                    "Expected: not "
-                    (-> this .-utils (.printExpected (pr-str expected)))
-                    "\n"
-                    "Received: "
-                    (-> this .-utils (.printReceived (pr-str received))))
-                   (str
-                    (-> this
-                        .-utils
-                        (.matcherHint "toEq" js/undefined js/undefined opts))
-                    "\n\n"
-                    "Expected: "
-                    (-> this .-utils (.printExpected (pr-str expected)))
-                    "\n"
-                    "Received: "
-                    (-> this .-utils (.printReceived (pr-str received))))))]
+          (fn print-toeq []
+            (let [print-expected (fn [v] (.EXPECTED_COLOR utils (pr-str v)))
+                  print-received (fn [v] (.RECEIVED_COLOR utils (pr-str v)))]
+              (prn (js-keys utils))
+              (if pass
+                (str
+                 (-> this
+                     .-utils
+                     (.matcherHint "toEq" js/undefined js/undefined opts))
+                 "\n\n"
+                 "Expected: not "
+                 (print-expected expected)
+                 "\n"
+                 "Received: "
+                 (print-received received))
+                (str
+                 (-> this
+                     .-utils
+                     (.matcherHint "toEq" js/undefined js/undefined opts))
+                 "\n\n"
+                 "Expected: "
+                 (print-expected expected)
+                 "\n"
+                 "Received: "
+                 (print-received received)))))]
       #js{:actual received
           :message message
           :pass pass})))
