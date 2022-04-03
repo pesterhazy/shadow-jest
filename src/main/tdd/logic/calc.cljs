@@ -25,4 +25,6 @@
          (when (seq negs)
            (throw (js/Error. (str "Negative numbers not allowed: "
                                   (->> negs (string/join ", "))))))
-         (reduce + 0 numbers))))))
+         (->> numbers
+              (remove #(> % 1000))
+              (reduce + 0)))))))

@@ -100,3 +100,9 @@
  (fn []
    (-> (expect #(calc/add "-1,-2"))
        (.toThrow #"Negative numbers not allowed: -1, -2"))))
+
+(test
+ "ignores large numbers"
+ (fn []
+   (-> (expect (calc/add "2,1001"))
+       (.toBe 2))))
