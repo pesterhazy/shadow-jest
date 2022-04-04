@@ -4,7 +4,7 @@
  {:app {:target :browser
         :output-dir "public/js"
         :asset-path "/js"
-        :modules {:main {:entries [tdd.main]}}}
+        :modules {:main {:init-fn tdd.main/init}}}
   :test {:target :npm-module
          :ns-regexp "(-test$|^jest-cljs.matchers$)"
          :output-dir "dist-test"}}}

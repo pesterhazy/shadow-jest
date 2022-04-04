@@ -1,3 +1,4 @@
 (ns tdd.main)
 
-(prn :main)
+(defn init []
+  (prn :main))
