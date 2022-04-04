@@ -1,1 +1,1 @@
-- avoid warning for test.skip
+- walking skeleton: show start button

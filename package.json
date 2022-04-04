@@ -14,6 +14,10 @@
     "start": "node dist/tdd.main.js"
   },
   "dependencies": {
+    "@testing-library/jest-dom": "^5.14.1",
+    "@testing-library/react": "^12.1.2",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
     "regex-escape": "^3.4.10"
   }
 }
