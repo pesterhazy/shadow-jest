@@ -1,2 +1,1 @@
-- colocate tests in src
 - avoid warning for test.skip
