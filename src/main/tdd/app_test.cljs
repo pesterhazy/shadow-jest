@@ -5,8 +5,16 @@
             [tdd.app]))
 
 (test
- "Shows start button"
+ "shows start button"
  (fn []
    (rtl/render (uix/as-element [tdd.app/app-ui]))
    (-> (expect (rtl/screen.getByText "Start"))
        (.toBeInTheDocument))))
+
+(test
+ "shows board"
+ (fn []
+   (rtl/render (uix/as-element [tdd.app/board-ui]))
+   (-> (expect (-> (rtl/screen.getAllByTestId "field")
+                   count))
+       (.toBe 9))))

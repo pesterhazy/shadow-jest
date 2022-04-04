@@ -1,1 +1,1 @@
-- walking skeleton: show start button
+- show board
