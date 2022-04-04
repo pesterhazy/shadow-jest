@@ -1,10 +1,10 @@
-;; shadow-cljs configuration
 {:deps true
-
+ :dev-http {8012 "public"}
  :builds
- {:app {:target :npm-module
-        :output-dir "dist"
-        :entries [tdd.main]}
+ {:app {:target :browser
+        :output-dir "public/js"
+        :asset-path "/js"
+        :modules {:main {:entries [tdd.main]}}}
   :test {:target :npm-module
          :ns-regexp "(-test$|^jest-cljs.matchers$)"
          :output-dir "dist-test"}}}
