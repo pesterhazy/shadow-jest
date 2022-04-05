@@ -1,4 +1,4 @@
-- show fields on board
+- make game class
 
 Ideas
 
