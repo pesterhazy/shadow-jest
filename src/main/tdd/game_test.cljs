@@ -7,7 +7,7 @@
  "returns 0 moves for empty game"
  (fn []
    (let [game (x/create)]
-     (-> (expect (x/moves game))
+     (-> (expect (x/turn game))
          (.toBe 0)))))
 
 (test
@@ -15,7 +15,7 @@
  (fn []
    (let [game (-> (x/create)
                   (x/move 0))]
-     (-> (expect (x/moves game))
+     (-> (expect (x/turn game))
          (.toBe 1)))))
 
 (test
@@ -24,7 +24,7 @@
    (let [game (-> (x/create)
                   (x/move 0)
                   (x/move 1))]
-     (-> (expect (x/moves game))
+     (-> (expect (x/turn game))
          (.toBe 2)))))
 
 (test
