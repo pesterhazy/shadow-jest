@@ -26,6 +26,10 @@
          fields (rtl/screen.getAllByTestId "field")]
      (-> (expect (count fields))
          (.toBe 9))
+     (-> (expect (first fields))
+         (.toHaveClass "box"))
+     (-> (expect (.-parentElement (first fields)))
+         (.toHaveClass "board"))
      (-> (expect (->> fields
                       (map #(-> % .-innerHTML))
                       vec))
