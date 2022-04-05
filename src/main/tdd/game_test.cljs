@@ -35,3 +35,11 @@
                   (x/move 1))]
      (-> (expect (x/fields game))
          (.toEq ["X" "O" "" "" "" "" "" "" ""])))))
+
+(test
+ "throws when trying to play the same field twice"
+ (fn []
+   (let [game (-> (x/create)
+                  (x/move 0))]
+     (-> (expect (fn [] (x/move game 0)))
+         (.toThrow "Illegal move")))))
