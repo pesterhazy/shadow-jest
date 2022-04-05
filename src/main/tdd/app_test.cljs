@@ -4,6 +4,13 @@
             [uix.core.alpha :as uix]
             [tdd.app]))
 
+(defn render-board-ui
+  ([]
+   (render-board-ui {}))
+  ([opts]
+   (rtl/render (uix/as-element [tdd.app/board-ui (merge {:fs tdd.app/empty-fs} opts)]))
+   (rtl/screen.getAllByTestId "field")))
+
 (test
  "shows start button"
  (fn []
@@ -14,18 +21,14 @@
 (test
  "shows board with 9 fields"
  (fn []
-   (rtl/render (uix/as-element [tdd.app/board-ui]))
-   (let [fields (rtl/screen.getAllByTestId "field")]
+   (let [fields (render-board-ui)]
      (-> (expect (count fields))
          (.toBe 9)))))
 (test
  "shows correct fields"
  (fn []
    (let [fs ["O" "X" "X" "" "O" "O" "X" "O" "O"]
-         _ (rtl/render (uix/as-element [tdd.app/board-ui {:fs fs}]))
-         fields (rtl/screen.getAllByTestId "field")]
-     (-> (expect (count fields))
-         (.toBe 9))
+         fields (render-board-ui {:fs fs})]
      (-> (expect (first fields))
          (.toHaveClass "box"))
      (-> (expect (.-parentElement (first fields)))
@@ -38,21 +41,14 @@
 (test
  "allows user to click on field"
  (fn []
-   (let [fs ["" "" "" "" "" "" "" "" ""]
-         !n (atom nil)
-         _ (rtl/render (uix/as-element [tdd.app/board-ui
-                                        {:fs fs
-                                         :on-move (fn [n] (reset! !n n))}]))
-         fields (rtl/screen.getAllByTestId "field")]
+   (let [!n (atom nil)
+         fields (render-board-ui {:on-move (fn [n] (reset! !n n))})]
      (rtl/fireEvent.click (get fields 2))
-
      (-> (expect @!n) (.toBe 2)))))
 
 (test
  "handles missing on-move handler gracefully"
  (fn []
-   (let [fs ["" "" "" "" "" "" "" "" ""]
-         _ (rtl/render (uix/as-element [tdd.app/board-ui {:fs fs}]))
-         fields (rtl/screen.getAllByTestId "field")]
+   (let [fields (render-board-ui)]
      (rtl/fireEvent.click (get fields 2))
      (-> (expect) .pass))))
