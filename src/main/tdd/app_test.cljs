@@ -1,20 +1,21 @@
 (ns tdd.app-test
-  (:require ["@jest/globals" :refer [test expect]]
-            ["@testing-library/react" :as rtl]
-            [uix.core.alpha :as uix]
-            [tdd.app]))
+  (:require
+   ["@jest/globals" :refer [expect test]]
+   ["@testing-library/react" :as rtl]
+   [tdd.app :as app]
+   [uix.core.alpha :as uix]))
 
 (defn render-board-ui
   ([]
    (render-board-ui {}))
   ([opts]
-   (rtl/render (uix/as-element [tdd.app/board-ui (merge {:fs tdd.app/empty-fs} opts)]))
+   (rtl/render (uix/as-element [app/board-ui (merge {:fs app/empty-fs} opts)]))
    (rtl/screen.getAllByTestId "field")))
 
 (test
  "shows start button"
  (fn []
-   (rtl/render (uix/as-element [tdd.app/app-ui]))
+   (rtl/render (uix/as-element [app/app-ui]))
    (-> (expect (rtl/screen.getByText "Start"))
        (.toBeInTheDocument))))
 
