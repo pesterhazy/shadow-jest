@@ -12,9 +12,21 @@
        (.toBeInTheDocument))))
 
 (test
- "shows board"
+ "shows board with 9 fields"
  (fn []
    (rtl/render (uix/as-element [tdd.app/board-ui]))
-   (-> (expect (-> (rtl/screen.getAllByTestId "field")
-                   count))
-       (.toBe 9))))
+   (let [fields (rtl/screen.getAllByTestId "field")]
+     (-> (expect (count fields))
+         (.toBe 9)))))
+(test
+ "shows correct fields"
+ (fn []
+   (let [fs ["O" "X" "X" "X" "O" "O" "X" "O" "O"]
+         _ (rtl/render (uix/as-element [tdd.app/board-ui {:fs fs}]))
+         fields (rtl/screen.getAllByTestId "field")]
+     (-> (expect (count fields))
+         (.toBe 9))
+     (-> (expect (->> fields
+                      (map #(-> % .-innerHTML))
+                      vec))
+         (.toEq fs)))))

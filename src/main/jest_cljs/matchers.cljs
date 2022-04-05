@@ -12,7 +12,6 @@
           (fn print-toeq []
             (let [print-expected (fn [v] (.EXPECTED_COLOR utils (pr-str v)))
                   print-received (fn [v] (.RECEIVED_COLOR utils (pr-str v)))]
-              (prn (js-keys utils))
               (if pass
                 (str
                  (-> this

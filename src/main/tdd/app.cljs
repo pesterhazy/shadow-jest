@@ -3,7 +3,7 @@
 (defn app-ui []
   [:button "Start"])
 
-(defn board-ui []
+(defn board-ui [{:keys [fs]}]
   (->> (range 9)
-       (map (fn [_n] [:div {:data-testid "field"}]))
+       (map (fn [n] [:div {:data-testid "field"} (get fs n)]))
        (into [:div])))
