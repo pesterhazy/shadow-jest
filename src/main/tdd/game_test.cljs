@@ -1,19 +1,37 @@
 (ns tdd.game-test
   (:require
    ["@jest/globals" :refer [expect test]]
-   [tdd.game]))
+   [tdd.game :as x]))
 
 (test
  "returns 0 moves for empty game"
  (fn []
-   (let [game (tdd.game/create)]
-     (-> (expect (tdd.game/moves game))
+   (let [game (x/create)]
+     (-> (expect (x/moves game))
          (.toBe 0)))))
 
 (test
- "returns 0 moves for empty game"
+ "returns 1 move after 1 move"
  (fn []
-   (let [game (-> (tdd.game/create)
-                  (tdd.game/move 0))]
-     (-> (expect (tdd.game/moves game))
+   (let [game (-> (x/create)
+                  (x/move 0))]
+     (-> (expect (x/moves game))
          (.toBe 1)))))
+
+(test
+ "returns 2 moves after two moves"
+ (fn []
+   (let [game (-> (x/create)
+                  (x/move 0)
+                  (x/move 1))]
+     (-> (expect (x/moves game))
+         (.toBe 2)))))
+
+(test
+ "returns alternating players"
+ (fn []
+   (let [game (-> (x/create)
+                  (x/move 0)
+                  (x/move 1))]
+     (-> (expect (x/fields game))
+         (.toEq ["X" "O" "" "" "" "" "" "" ""])))))

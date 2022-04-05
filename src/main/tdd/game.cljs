@@ -7,4 +7,7 @@
   (->> (:fs game) (remove #{""}) count))
 
 (defn move [game n]
-  (assoc-in game [:fs n] "X"))
+  (assoc-in game [:fs n] (if (zero? (mod (moves game) 2)) "X" "O")))
+
+(defn fields [game]
+  (:fs game))
