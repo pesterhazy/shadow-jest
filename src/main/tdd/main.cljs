@@ -5,5 +5,5 @@
 (def example-fs ["O" "X" "X" "X" "O" "O" "X" "O" "O"])
 
 (defn init []
-  (uix.dom/render [app/board-ui {:fs example-fs}]
+  (uix.dom/render [app/app-ui]
                   (js/document.querySelector "#app")))
