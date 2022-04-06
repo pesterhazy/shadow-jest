@@ -6,8 +6,8 @@
    [uix.core.alpha :as uix]))
 
 (test
- "shows start button"
+ "shows board"
  (fn []
    (rtl/render (uix/as-element [app/app-ui]))
-   (-> (expect (rtl/screen.getByText "Start"))
+   (-> (expect (rtl/screen.getByTestId "board"))
        (.toBeInTheDocument))))

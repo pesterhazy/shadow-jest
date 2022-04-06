@@ -1,4 +1,6 @@
-(ns tdd.app)
+(ns tdd.app
+  (:require [tdd.board :as board]))
 
 (defn app-ui []
-  [:button "Start"])
+  (let [fs board/empty-fs]
+    [board/board-ui {:fs fs}]))

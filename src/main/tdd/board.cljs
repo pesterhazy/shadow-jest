@@ -9,4 +9,4 @@
          (map (fn [n] [:div.box {:data-testid "field"
                                  :on-click (fn [] (on-move n))}
                        (get fs n)]))
-         (into [:div.board]))))
+         (into [:div.board {:data-testid "board"}]))))
