@@ -1,4 +1,4 @@
-- make game class
+- move board to its own ns
 
 Ideas
 
