@@ -14,7 +14,7 @@
  "returns 1 turn after 1 move"
  (fn []
    (let [game (-> (x/create)
-                  (x/move 0))]
+                  (x/advance 0))]
      (-> (expect (x/turn game))
          (.toBe 1)))))
 
@@ -22,8 +22,8 @@
  "returns 2 turns after two moves"
  (fn []
    (let [game (-> (x/create)
-                  (x/move 0)
-                  (x/move 1))]
+                  (x/advance 0)
+                  (x/advance 1))]
      (-> (expect (x/turn game))
          (.toBe 2)))))
 
@@ -31,8 +31,8 @@
  "returns alternating players"
  (fn []
    (let [game (-> (x/create)
-                  (x/move 0)
-                  (x/move 1))]
+                  (x/advance 0)
+                  (x/advance 1))]
      (-> (expect (x/fields game))
          (.toEq ["X" "O" "" "" "" "" "" "" ""])))))
 
@@ -40,8 +40,8 @@
  "throws when trying to play the same field twice"
  (fn []
    (let [game (-> (x/create)
-                  (x/move 0))]
-     (-> (expect (fn [] (x/move game 0)))
+                  (x/advance 0))]
+     (-> (expect (fn [] (x/advance game 0)))
          (.toThrow "Illegal move")))))
 
 (test
@@ -55,7 +55,7 @@
  "reports result pending after first move"
  (fn []
    (let [game (-> (x/create)
-                  (x/move 0))]
+                  (x/advance 0))]
      (-> (expect (x/result game))
          (.toEq :pending)))))
 
