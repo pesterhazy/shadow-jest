@@ -88,6 +88,13 @@
          (.toEq :X)))))
 
 (test
+ "reports result X as winner (regression)"
+ (fn []
+   (let [game (-> (x/create ["" "" "X" "" "O" "X" "" "O" "X"]))]
+     (-> (expect (x/result game))
+         (.toEq :X)))))
+
+(test
  "reports draw"
  (fn []
    (let [game (-> (x/create ["O" "X" "O" "X" "X" "O" "X" "O" "X"]))]
