@@ -2,6 +2,6 @@
 
 Ideas
 
-- integrate playground: /playground/board etc
-- get #pp
+- playground-based development: /playground/board etc
 - make reloading restart tdd.main/init
+- Emacs 28
