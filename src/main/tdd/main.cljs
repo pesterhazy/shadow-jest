@@ -2,6 +2,6 @@
   (:require [uix.dom.alpha :as uix.dom]
             [tdd.app :as app]))
 
-(defn init []
-  (uix.dom/render [app/app-ui]
+(defn ^:dev/after-load init []
+  (uix.dom/render [(fn [] (app/app-ui))] ;; hack for force reloading
                   (js/document.querySelector "#app")))

@@ -1,4 +1,5 @@
-- move board to its own ns
+- style result-ui
+- show restart button
 
 Ideas
 
