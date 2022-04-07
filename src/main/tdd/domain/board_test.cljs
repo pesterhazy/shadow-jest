@@ -41,7 +41,7 @@
        (.toBeInTheDocument))))
 
 (test
- "shows message that player X won"
+ "shows message that player O won"
  (fn []
    (rtl/render (uix/as-element [sut/board-do {:game (game/create ["O" "O" "O"
                                                                   "X" "X" ""
@@ -57,3 +57,13 @@
                                                                   "X" "O" "X"])}]))
    (-> (expect (rtl/screen.getByText "Draw"))
        (.toBeInTheDocument))))
+
+(test
+ "game frozen when player won"
+ (fn []
+   (rtl/render (uix/as-element [sut/board-do {:game (game/create ["O" "O" "O"
+                                                                  "X" "X" ""
+                                                                  "" "" ""])}]))
+   (let [fields (rtl/screen.getAllByTestId "field")
+         _ (rtl/fireEvent.click (get fields 5))]
+     (-> (expect (get fields 5)) (.toHaveTextContent "")))))

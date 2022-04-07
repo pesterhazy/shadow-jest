@@ -55,3 +55,13 @@
    (let [fields (render-board-ui)]
      (rtl/fireEvent.click (get fields 2))
      (-> (expect) .pass))))
+
+(test
+ "doesn't let user click when frozen"
+ (fn []
+   (let [!n (atom nil)
+         fields (render-board-ui {:fs ["" "" "" "" "" "" "" "" ""]
+                                  :frozen true
+                                  :on-move (fn [n] (reset! !n n))})]
+     (rtl/fireEvent.click (get fields 2))
+     (-> (expect @!n) (.toEq nil)))))
