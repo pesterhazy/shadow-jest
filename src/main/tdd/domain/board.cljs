@@ -12,5 +12,5 @@
       [board/board-ui {:fs (game/fields game) ;; use accessor
                        :frozen (not= :pending result)
                        :on-move (fn [n]
-                                  (set-game (fn [game] (game/move game n))))}]
-      [board/result-ui result]])))
+                                  (set-game (fn [game] (game/move game n))))}
+       [board/result-ui result]]])))
