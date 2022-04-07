@@ -12,5 +12,5 @@
       [board/board-ui {:fs (game/fields game) ;; use accessor
                        :on-move (fn [n]
                                   (set-game (fn [game] (game/move game n))))}]
-      (when (= :X result)
-        [:div "Player X won"])])))
+      (when-let [winner (#{:X :O} result)]
+        [:div "Player " (name winner) " won"])])))

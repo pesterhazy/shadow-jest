@@ -39,3 +39,12 @@
                                                                   "" "" ""])}]))
    (-> (expect (rtl/screen.getByText "Player X won"))
        (.toBeInTheDocument))))
+
+(test
+ "shows message that player X won"
+ (fn []
+   (rtl/render (uix/as-element [sut/board-do {:game (game/create ["O" "O" "O"
+                                                                  "X" "X" ""
+                                                                  "" "" ""])}]))
+   (-> (expect (rtl/screen.getByText "Player O won"))
+       (.toBeInTheDocument))))
