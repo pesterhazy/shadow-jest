@@ -55,7 +55,7 @@
    (rtl/render (uix/as-element [sut/board-do {:game (game/create ["O" "X" "O"
                                                                   "X" "X" "O"
                                                                   "X" "O" "X"])}]))
-   (-> (expect (rtl/screen.getByText "Draw"))
+   (-> (expect (rtl/screen.getByText #"Draw"))
        (.toBeInTheDocument))))
 
 (test
