@@ -93,3 +93,10 @@
    (let [game (-> (x/create ["O" "X" "O" "X" "X" "O" "X" "O" "X"]))]
      (-> (expect (x/result game))
          (.toEq :draw)))))
+
+(test
+ "returns winner"
+ (fn []
+   (let [game (-> (x/create ["X" "" "" "" "X" "O" "O" "" "X"]))]
+     (-> (expect (x/winners game))
+         (.toEq #{0 4 8})))))
