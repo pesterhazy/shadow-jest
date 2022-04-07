@@ -17,19 +17,19 @@
 (defn fields [game]
   (:fs game))
 
-(defn no [row col]
+(defn at [row col]
   (+ (* row 3) col))
 
 (defn winners [{:keys [fs]}]
   (let [candidates (-> #{}
                        (into (map (fn [row]
-                                    #{(no row 0) (no row 1) (no row 2)})
+                                    #{(at row 0) (at row 1) (at row 2)})
                                   (range 3)))
                        (into (map (fn [col]
-                                    #{(no 0 col) (no 1 col) (no 2 col)})
+                                    #{(at 0 col) (at 1 col) (at 2 col)})
                                   (range 3)))
-                       (conj #{(no 0 0) (no 1 1) (no 2 2)})
-                       (conj #{(no 2 0) (no 1 1) (no 0 2)}))]
+                       (conj #{(at 0 0) (at 1 1) (at 2 2)})
+                       (conj #{(at 2 0) (at 1 1) (at 0 2)}))]
     (some (fn [c]
             (when (and (#{"X" "O"} (get fs (first c)))
                        (apply = (map fs c)))
