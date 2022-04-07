@@ -3,6 +3,7 @@
    ["@jest/globals" :refer [expect test]]
    ["@testing-library/react" :as rtl]
    [tdd.domain.board :as sut]
+   [tdd.logic.game :as game]
    [uix.core.alpha :as uix]))
 
 (test
@@ -29,3 +30,12 @@
          _ (rtl/fireEvent.click (get fields 0))
          _ (rtl/fireEvent.click (get fields 0))]
      (-> (expect (get fields 0)) (.toHaveTextContent "X")))))
+
+(test
+ "shows message that player X won"
+ (fn []
+   (rtl/render (uix/as-element [sut/board-do {:game (game/create ["X" "X" "X"
+                                                                  "O" "O" ""
+                                                                  "" "" ""])}]))
+   (-> (expect (rtl/screen.getByText "Player X won"))
+       (.toBeInTheDocument))))

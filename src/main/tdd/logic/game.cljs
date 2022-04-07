@@ -2,9 +2,9 @@
 
 (defn create
   ([]
-   (create (-> (repeat 9 "") vec)))
+   (create nil))
   ([fs]
-   {:fs fs}))
+   {:fs (or fs (-> (repeat 9 "") vec))}))
 
 (defn turn [game]
   (->> (:fs game) (remove #{""}) count))
