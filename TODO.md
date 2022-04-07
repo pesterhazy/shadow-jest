@@ -1,5 +1,4 @@
-- style result-ui
-- show restart button
+- highlight winner
 
 Ideas
 

@@ -17,35 +17,29 @@
 (defn fields [game]
   (:fs game))
 
-(defn at [{:keys [fs]} row col]
-  (get fs (+ (* row 3) col)))
+(defn no [row col]
+  (+ (* row 3) col))
 
-(defn result [game]
+(defn winners [{:keys [fs]}]
+  (let [candidates (-> #{}
+                       (into (map (fn [row]
+                                    #{(no row 0) (no row 1) (no row 2)})
+                                  (range 2)))
+                       (into (map (fn [col]
+                                    #{(no 0 col) (no 1 col) (no 2 col)})
+                                  (range 2)))
+                       (conj #{(no 0 0) (no 1 1) (no 2 2)})
+                       (conj #{(no 2 0) (no 1 1) (no 0 2)}))]
+    (some (fn [c]
+            (when (and (#{"X" "O"} (get fs (first c)))
+                       (every? (fn [n] (= (get fs (first c)) (get fs n))) c))
+              c))
+          candidates)))
+
+(defn result [{:keys [fs] :as game}]
   (or
-   (some (fn [row] (when (and (#{"X" "O"} (at game row 0))
-                              (= (at game row 0)
-                                 (at game row 1)
-                                 (at game row 2)))
-                     (keyword (at game row 0))))
-         (range 2))
-   (some (fn [col] (when (and (#{"X" "O"} (at game 0 col ))
-                              (= (at game 0 col)
-                                 (at game 1 col)
-                                 (at game 2 col)))
-                     (keyword (at game 0 col))))
-         (range 2))
-   (cond
-     (and (#{"X" "O"} (at game 0 0 ))
-          (= (at game 0 0)
-             (at game 1 1)
-             (at game 2 2)))
-     (keyword (at game 0 0))
-     (and (#{"X" "O"} (at game 2 0 ))
-          (= (at game 2 0)
-             (at game 1 1)
-             (at game 0 2)))
-     (keyword (at game 2 0))
-     (= (turn game) 9)
+   (when-let [ws (winners game)]
+     (keyword (get fs (first ws))))
+   (if (= (turn game) 9)
      :draw
-     :else
      :pending)))
