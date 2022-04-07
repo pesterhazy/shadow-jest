@@ -1,8 +1,8 @@
-(ns tdd.board-test
+(ns tdd.ui.board-test
   (:require
    ["@jest/globals" :refer [expect test]]
    ["@testing-library/react" :as rtl]
-   [tdd.board :as board]
+   [tdd.ui.board :as board]
    [uix.core.alpha :as uix]))
 
 (defn render-board-ui

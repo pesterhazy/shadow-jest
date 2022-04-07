@@ -1,4 +1,4 @@
-(ns tdd.board)
+(ns tdd.ui.board)
 
 (def empty-fs (-> (repeat 9 "") vec))
 

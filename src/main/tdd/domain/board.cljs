@@ -1,5 +1,5 @@
 (ns tdd.domain.board
-  (:require [tdd.board :as board]
+  (:require [tdd.ui.board :as board]
             [tdd.game :as game]
             ["react" :as react]))
 
