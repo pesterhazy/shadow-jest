@@ -1,6 +1,6 @@
 (ns tdd.domain.board
   (:require [tdd.ui.board :as board]
-            [tdd.game :as game]
+            [tdd.logic.game :as game]
             ["react" :as react]))
 
 (defn board-do []

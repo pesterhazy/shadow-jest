@@ -1,4 +1,4 @@
-(ns tdd.game)
+(ns tdd.logic.game)
 
 (defn create
   ([]

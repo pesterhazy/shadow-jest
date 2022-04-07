@@ -1,7 +1,7 @@
-(ns tdd.game-test
+(ns tdd.logic.game-test
   (:require
    ["@jest/globals" :refer [expect test]]
-   [tdd.game :as x]))
+   [tdd.logic.game :as x]))
 
 (test
  "returns 0 turns for empty game"
