@@ -13,10 +13,10 @@
              (into [:div.board {:data-testid "board"}]))
         (into children))))
 
-(defn result-ui [result]
+(defn result-ui [{:keys [result on-restart]}]
   (case result
     (:X :O)
-    [:button.results "Player " (name result) " won." [:br] "Click to restart"]
+    [:button.results {:on-click on-restart} "Player " (name result) " won." [:br] "Click to restart"]
     :draw
-    [:button.results "Draw." [:br] "Click to restart"]
+    [:button.results {:on-click on-restart} "Draw." [:br] "Click to restart"]
     nil))

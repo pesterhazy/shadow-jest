@@ -67,3 +67,16 @@
    (let [fields (rtl/screen.getAllByTestId "field")
          _ (rtl/fireEvent.click (get fields 5))]
      (-> (expect (get fields 5)) (.toHaveTextContent "")))))
+
+(test
+ "restarts the game when you click restart"
+ (fn []
+   (rtl/render (uix/as-element [sut/board-do {:game (game/create ["O" "O" "O"
+                                                                  "X" "X" ""
+                                                                  "" "" ""])}]))
+   (rtl/fireEvent.click (rtl/screen.getByText #"Click to restart"))
+   (let [fields (rtl/screen.getAllByTestId "field")]
+     (-> (expect (->> fields
+                      (map #(-> % .-innerHTML))
+                      vec))
+         (.toEq ["" "" "" "" "" "" "" "" ""])))))

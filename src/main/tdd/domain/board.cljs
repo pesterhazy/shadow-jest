@@ -5,12 +5,14 @@
 
 (defn board-do
   ([] (board-do {}))
-  ([{:keys [game]}]
-   (let [[game set-game] (react/useState (or game (game/create)))
+  ([{initial-game :game}]
+   (let [[game set-game] (react/useState (or initial-game (game/create)))
          result (game/result game)]
      [:div
       [board/board-ui {:fs (game/fields game) ;; use accessor
                        :frozen (not= :pending result)
                        :on-move (fn [n]
                                   (set-game (fn [game] (game/move game n))))}
-       [board/result-ui result]]])))
+       [board/result-ui {:result result
+                         :on-restart (fn []
+                                       (set-game (game/create)))}]]])))
