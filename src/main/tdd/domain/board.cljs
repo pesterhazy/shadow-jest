@@ -13,9 +13,4 @@
                        :frozen (not= :pending result)
                        :on-move (fn [n]
                                   (set-game (fn [game] (game/move game n))))}]
-      (case result
-        (:X :O)
-        [:div "Player " (name result) " won"]
-        :draw
-        [:div "Draw"]
-        nil)])))
+      [board/result-ui result]])))
