@@ -37,7 +37,7 @@
    (rtl/render (uix/as-element [sut/board-do {:game (game/create ["X" "X" "X"
                                                                   "O" "O" ""
                                                                   "" "" ""])}]))
-   (-> (expect (rtl/screen.getByText "Player X won"))
+   (-> (expect (rtl/screen.getByText #"Player X won"))
        (.toBeInTheDocument))))
 
 (test
@@ -46,7 +46,7 @@
    (rtl/render (uix/as-element [sut/board-do {:game (game/create ["O" "O" "O"
                                                                   "X" "X" ""
                                                                   "" "" ""])}]))
-   (-> (expect (rtl/screen.getByText "Player O won"))
+   (-> (expect (rtl/screen.getByText #"Player O won"))
        (.toBeInTheDocument))))
 
 (test

@@ -16,7 +16,7 @@
 (defn result-ui [result]
   (case result
     (:X :O)
-    [:div.results "Player " (name result) " won"]
+    [:button.results "Player " (name result) " won." [:br] "Click to restart"]
     :draw
-    [:div.results "Draw"]
+    [:button.results "Draw." [:br] "Click to restart"]
     nil))
