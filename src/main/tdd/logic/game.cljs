@@ -32,7 +32,7 @@
                        (conj #{(no 2 0) (no 1 1) (no 0 2)}))]
     (some (fn [c]
             (when (and (#{"X" "O"} (get fs (first c)))
-                       (every? (fn [n] (= (get fs (first c)) (get fs n))) c))
+                       (apply = (map fs c)))
               c))
           candidates)))
 
