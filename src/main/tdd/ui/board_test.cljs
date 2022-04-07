@@ -65,3 +65,16 @@
                                   :on-move (fn [n] (reset! !n n))})]
      (rtl/fireEvent.click (get fields 2))
      (-> (expect @!n) (.toEq nil)))))
+
+(test
+ "highlights fields"
+ (fn []
+   (let [fs ["O" "X" "X" "O" "" "O" "O" "X" "O"]
+         fields (render-board-ui {:fs fs
+                                  :highlight #{0 3 6}})]
+     (-> (expect (->> fields
+                      (keep-indexed (fn [idx el]
+                                      (when (-> el .-classList (.contains "highlight"))
+                                        idx)))
+                      set))
+         (.toEq #{0 3 6})))))

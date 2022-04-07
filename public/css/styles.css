@@ -33,3 +33,7 @@
     border-radius: 10px;
     transform: translate(-50%,0);
 }
+
+.highlight {
+    color: yellow;
+}

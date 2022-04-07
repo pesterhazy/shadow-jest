@@ -2,13 +2,16 @@
 
 (def empty-fs (-> (repeat 9 "") vec))
 
-(defn board-ui [{:keys [fs on-move frozen]} & children]
+(defn board-ui [{:keys [fs on-move frozen highlight]} & children]
   (assert (= 9 (count fs)))
-  (let [on-move (or on-move (fn []))]
+  (let [on-move (or on-move (fn []))
+        highlight (set highlight)]
     (-> (->> (range 9)
-             (map (fn [n] [:div.box {:data-testid "field"
-                                     :on-click (when (and (not frozen) (= "" (get fs n)))
-                                                 (fn [] (on-move n)))}
+             (map (fn [n] [:div {:data-testid "field"
+                                 :class ["box" (when (highlight n)
+                                                 "highlight")]
+                                 :on-click (when (and (not frozen) (= "" (get fs n)))
+                                             (fn [] (on-move n)))}
                            (get fs n)]))
              (into [:div.board {:data-testid "board"}]))
         (into children))))

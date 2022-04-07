@@ -69,6 +69,20 @@
      (-> (expect (get fields 5)) (.toHaveTextContent "")))))
 
 (test
+ "fields highlighted when player won"
+ (fn []
+   (rtl/render (uix/as-element [sut/board-do {:game (game/create ["O" "O" "O"
+                                                                  "X" "X" ""
+                                                                  "" "" ""])}]))
+   (let [fields (rtl/screen.getAllByTestId "field")]
+     (-> (expect (->> fields
+                      (keep-indexed (fn [idx el]
+                                      (when (-> el .-classList (.contains "highlight"))
+                                        idx)))
+                      set))
+         (.toEq #{0 1 2})))))
+
+(test
  "restarts the game when you click restart"
  (fn []
    (rtl/render (uix/as-element [sut/board-do {:game (game/create ["O" "O" "O"
