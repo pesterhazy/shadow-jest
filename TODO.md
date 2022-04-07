@@ -4,5 +4,5 @@
 Ideas
 
 - playground-based development: /playground/board etc
-- make reloading restart tdd.main/init
+- is there a way to reload without losing state?
 - Emacs 28
