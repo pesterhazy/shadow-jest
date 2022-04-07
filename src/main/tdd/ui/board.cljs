@@ -7,6 +7,7 @@
   (let [on-move (or on-move (fn []))]
     (->> (range 9)
          (map (fn [n] [:div.box {:data-testid "field"
-                                 :on-click (fn [] (on-move n))}
+                                 :on-click (when (= "" (get fs n))
+                                             (fn [] (on-move n)))}
                        (get fs n)]))
          (into [:div.board {:data-testid "board"}]))))

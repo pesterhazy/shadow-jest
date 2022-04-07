@@ -41,6 +41,15 @@
      (-> (expect @!n) (.toBe 2)))))
 
 (test
+ "doesn't let user click on used field"
+ (fn []
+   (let [!n (atom nil)
+         fields (render-board-ui {:fs ["" "" "X" "" "" "" "" "" ""]
+                                  :on-move (fn [n] (reset! !n n))})]
+     (rtl/fireEvent.click (get fields 2))
+     (-> (expect @!n) (.toEq nil)))))
+
+(test
  "handles missing on-move handler gracefully"
  (fn []
    (let [fields (render-board-ui)]
