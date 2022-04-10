@@ -10,7 +10,7 @@
   },
   "scripts": {
     "dev": "clojure -M:shadow-cljs watch app test",
-    "dev:clean": "rm -rf dist-clean .shadow-cljs/builds && clojure -M:shadow-cljs watch app test",
+    "dev:clean": "rm -rf dist-test .shadow-cljs/builds && clojure -M:shadow-cljs watch app test",
     "test": "jest --watchAll",
     "start": "node dist/tdd.main.js"
   },
