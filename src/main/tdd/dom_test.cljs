@@ -5,5 +5,6 @@
 (test
  "tbd"
  (fn []
-   (dom/create)
-   (-> (expect) .pass)))
+   (dom/create-div "my text param")
+   (let [node (-> js/document.body .-firstChild)]
+     (-> (expect (-> node .-textContent)) (.toBe "my text param")))))
